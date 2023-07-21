@@ -1,4 +1,4 @@
-MPASM 5.77                          MAIN.ASM   7-21-2023  22:37:51         PAGE  1
+MPASM 5.77                          MAIN.ASM   7-22-2023  1:09:19         PAGE  1
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -57,7 +57,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00040 
                       00041 ;         Restore context before returning from interrupt
 0009   0841           00042           MOVF    status_temp,w   ; retrieve copy of STATUS register
-MPASM 5.77                          MAIN.ASM   7-21-2023  22:37:51         PAGE  2
+MPASM 5.77                          MAIN.ASM   7-22-2023  1:09:19         PAGE  2
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -116,7 +116,7 @@ Message[305]: Using default destination of 1 (file).
 002F                  00091 MAIN
 002F   3030           00092                 MOVLW           (1<<IRCF1)|(1<<IRCF0)                                                   
                              
-MPASM 5.77                          MAIN.ASM   7-21-2023  22:37:51         PAGE  3
+MPASM 5.77                          MAIN.ASM   7-22-2023  1:09:19         PAGE  3
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -175,7 +175,7 @@ Message[312]: Page or Bank selection not needed for this device.  No code genera
 004C   3004           00136                 MOVLW           (1<<RA2)
 004D   0087           00137                 MOVWF            LATA
 004E   2???           00138                 CALL            DELAY_150MS
-MPASM 5.77                          MAIN.ASM   7-21-2023  22:37:51         PAGE  4
+MPASM 5.77                          MAIN.ASM   7-22-2023  1:09:19         PAGE  4
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -234,7 +234,7 @@ Message[305]: Using default destination of 1 (file).
 0072   0087           00182                 MOVWF            LATA
 0073   2???           00183                 CALL            DELAY_150MS
 0074   2???           00184                 CALL            DELAY_150MS
-MPASM 5.77                          MAIN.ASM   7-21-2023  22:37:51         PAGE  5
+MPASM 5.77                          MAIN.ASM   7-22-2023  1:09:19         PAGE  5
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -283,54 +283,55 @@ Warning[207]: Found label after column 1. (Strip_loop)
                              Bit Test f, Skip if Clear or Low 
 0091   2???           00218                 GOTO            WORK_CY1
 0092   0BD0           00219                 DECFSZ          loop_counter, 1
-0093   2???           00220                 GOTO            Strip_loop
-                      00221                         
-0094                  00222 WORK_ERROR_CONDITION ; After waiting for Max time Start Normal
-0094   2???           00223                 GOTO            WORK_CY1                
-                      00224 
-                      00225                 
-0095                  00226 DELAY_40US                        ; Oscillator 1M, 10 instruction cycles
-0095   0064           00227           CLRWDT
-0096   0000           00228           NOP
-0097   0000           00229           NOP
-MPASM 5.77                          MAIN.ASM   7-21-2023  22:37:51         PAGE  6
+                      00220                 
+0093   2???           00221                 GOTO            Strip_loop
+                      00222                         
+0094                  00223 WORK_ERROR_CONDITION ; After waiting for Max time Start Normal
+0094   2???           00224                 GOTO            WORK_CY1                
+                      00225 
+                      00226                 
+0095                  00227 DELAY_40US                        ; Oscillator 1M, 10 instruction cycles
+0095   0064           00228           CLRWDT
+0096   0000           00229           NOP
+MPASM 5.77                          MAIN.ASM   7-22-2023  1:09:19         PAGE  6
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
   VALUE
 
-0098   0000           00230           NOP
-0099   0000           00231           NOP
-009A   0000           00232           NOP
-009B   0000           00233           NOP
-009C   0008           00234           RETURN
-                      00235 
-009D                  00236 DELAY_150MS
-009D   304B           00237           MOVLW  0X4B
-009E   00C4           00238           MOVWF  TEMP3
-009F   2???           00239           CALL   DELAY_2MS
+0097   0000           00230           NOP
+0098   0000           00231           NOP
+0099   0000           00232           NOP
+009A   0000           00233           NOP
+009B   0000           00234           NOP
+009C   0008           00235           RETURN
+                      00236 
+009D                  00237 DELAY_150MS
+009D   304B           00238           MOVLW  0X4B
+009E   00C4           00239           MOVWF  TEMP3
+009F   2???           00240           CALL   DELAY_2MS
 Message[305]: Using default destination of 1 (file).
-00A0   0BC4           00240           DECFSZ TEMP3
-00A1   2???           00241           GOTO   $-2
-00A2   0008           00242           RETURN
-                      00243 
-                      00244           
-00A3                  00245 DELAY_2MS
-00A3   300A           00246           MOVLW  0X0A
-00A4   00C3           00247           MOVWF  TEMP2
-00A5                  00248 DELAY_2MS_1
-00A5   2???           00249           CALL   DELAY_40US
-00A6   2???           00250           CALL   DELAY_40US
-00A7   2???           00251           CALL   DELAY_40US
-00A8   2???           00252           CALL   DELAY_40US
-00A9   2???           00253           CALL   DELAY_40US
+00A0   0BC4           00241           DECFSZ TEMP3
+00A1   2???           00242           GOTO   $-2
+00A2   0008           00243           RETURN
+                      00244 
+                      00245           
+00A3                  00246 DELAY_2MS
+00A3   300A           00247           MOVLW  0X0A
+00A4   00C3           00248           MOVWF  TEMP2
+00A5                  00249 DELAY_2MS_1
+00A5   2???           00250           CALL   DELAY_40US
+00A6   2???           00251           CALL   DELAY_40US
+00A7   2???           00252           CALL   DELAY_40US
+00A8   2???           00253           CALL   DELAY_40US
+00A9   2???           00254           CALL   DELAY_40US
 Message[305]: Using default destination of 1 (file).
-00AA   0BC3           00254           DECFSZ TEMP2
-00AB   2???           00255           GOTO   DELAY_2MS_1
-00AC   0008           00256           RETURN
-                      00257 ;/////////////////////////////////////////////////////////
-3C9C                  00258           END
-MPASM 5.77                          MAIN.ASM   7-21-2023  22:37:51         PAGE  7
+00AA   0BC3           00255           DECFSZ TEMP2
+00AB   2???           00256           GOTO   DELAY_2MS_1
+00AC   0008           00257           RETURN
+                      00258 ;/////////////////////////////////////////////////////////
+3C9C                  00259           END
+MPASM 5.77                          MAIN.ASM   7-22-2023  1:09:19         PAGE  7
 
 
 SYMBOL TABLE
@@ -389,7 +390,7 @@ CWG1DBR3                          00000003
 CWG1DBR4                          00000004
 CWG1DBR5                          00000005
 D1N                               00000000
-MPASM 5.77                          MAIN.ASM   7-21-2023  22:37:51         PAGE  8
+MPASM 5.77                          MAIN.ASM   7-22-2023  1:09:19         PAGE  8
 
 
 SYMBOL TABLE
@@ -448,7 +449,7 @@ G3POL                             00000002
 G4D1N                             00000000
 G4D1T                             00000001
 G4D2N                             00000002
-MPASM 5.77                          MAIN.ASM   7-21-2023  22:37:51         PAGE  9
+MPASM 5.77                          MAIN.ASM   7-22-2023  1:09:19         PAGE  9
 
 
 SYMBOL TABLE
@@ -507,7 +508,7 @@ LC1D3S0                           00000000
 LC1D3S1                           00000001
 LC1D3S2                           00000002
 LC1D4S0                           00000004
-MPASM 5.77                          MAIN.ASM   7-21-2023  22:37:51         PAGE 10
+MPASM 5.77                          MAIN.ASM   7-22-2023  1:09:19         PAGE 10
 
 
 SYMBOL TABLE
@@ -566,7 +567,7 @@ LCINTP                            00000004
 LCMODE0                           00000000
 LCMODE1                           00000001
 LCMODE2                           00000002
-MPASM 5.77                          MAIN.ASM   7-21-2023  22:37:51         PAGE 11
+MPASM 5.77                          MAIN.ASM   7-22-2023  1:09:19         PAGE 11
 
 
 SYMBOL TABLE
@@ -625,7 +626,7 @@ NCO1INC13                         00000005
 NCO1INC14                         00000006
 NCO1INC15                         00000007
 NCO1INC2                          00000002
-MPASM 5.77                          MAIN.ASM   7-21-2023  22:37:51         PAGE 12
+MPASM 5.77                          MAIN.ASM   7-22-2023  1:09:19         PAGE 12
 
 
 SYMBOL TABLE
@@ -684,7 +685,7 @@ PWM1DCH5                          00000005
 PWM1DCH6                          00000006
 PWM1DCH7                          00000007
 PWM1DCL                           00000014
-MPASM 5.77                          MAIN.ASM   7-21-2023  22:37:51         PAGE 13
+MPASM 5.77                          MAIN.ASM   7-22-2023  1:09:19         PAGE 13
 
 
 SYMBOL TABLE
@@ -743,7 +744,7 @@ TMR0IF                            00000002
 TMR0_ISR                          0000000E
 TMR0_ISR_RT                       00000020
 TMR2                              00000011
-MPASM 5.77                          MAIN.ASM   7-21-2023  22:37:51         PAGE 14
+MPASM 5.77                          MAIN.ASM   7-22-2023  1:09:19         PAGE 14
 
 
 SYMBOL TABLE
@@ -802,7 +803,7 @@ _BORV_LO                          00003FFF
 _CONFIG                           00002007
 _CP_OFF                           00003FFF
 _CP_ON                            00003F7F
-MPASM 5.77                          MAIN.ASM   7-21-2023  22:37:51         PAGE 15
+MPASM 5.77                          MAIN.ASM   7-22-2023  1:09:19         PAGE 15
 
 
 SYMBOL TABLE

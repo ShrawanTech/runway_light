@@ -192,7 +192,7 @@ WORK_CY2_2
 ;/////////////////////////////////////////////////////////
 	
 WORK_ERROR_CONDITION_LOOP
-		MOVLW		.80
+		MOVLW		.72	; Assuming 72 is max number of strip.
 		MOVWF		loop_counter
     Strip_loop	
 
