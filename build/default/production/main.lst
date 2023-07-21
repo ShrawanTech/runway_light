@@ -1,4 +1,4 @@
-MPASM 5.77                          MAIN.ASM   7-22-2023  1:09:19         PAGE  1
+MPASM 5.77                          MAIN.ASM   7-22-2023  1:20:48         PAGE  1
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -57,7 +57,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00040 
                       00041 ;         Restore context before returning from interrupt
 0009   0841           00042           MOVF    status_temp,w   ; retrieve copy of STATUS register
-MPASM 5.77                          MAIN.ASM   7-22-2023  1:09:19         PAGE  2
+MPASM 5.77                          MAIN.ASM   7-22-2023  1:20:48         PAGE  2
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -116,7 +116,7 @@ Message[305]: Using default destination of 1 (file).
 002F                  00091 MAIN
 002F   3030           00092                 MOVLW           (1<<IRCF1)|(1<<IRCF0)                                                   
                              
-MPASM 5.77                          MAIN.ASM   7-22-2023  1:09:19         PAGE  3
+MPASM 5.77                          MAIN.ASM   7-22-2023  1:20:48         PAGE  3
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -175,7 +175,7 @@ Message[312]: Page or Bank selection not needed for this device.  No code genera
 004C   3004           00136                 MOVLW           (1<<RA2)
 004D   0087           00137                 MOVWF            LATA
 004E   2???           00138                 CALL            DELAY_150MS
-MPASM 5.77                          MAIN.ASM   7-22-2023  1:09:19         PAGE  4
+MPASM 5.77                          MAIN.ASM   7-22-2023  1:20:48         PAGE  4
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -234,7 +234,7 @@ Message[305]: Using default destination of 1 (file).
 0072   0087           00182                 MOVWF            LATA
 0073   2???           00183                 CALL            DELAY_150MS
 0074   2???           00184                 CALL            DELAY_150MS
-MPASM 5.77                          MAIN.ASM   7-22-2023  1:09:19         PAGE  5
+MPASM 5.77                          MAIN.ASM   7-22-2023  1:20:48         PAGE  5
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -250,7 +250,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00192 ;/////////////////////////////////////////////////////////
                       00193         
 007C                  00194 WORK_ERROR_CONDITION_LOOP
-007C   3050           00195                 MOVLW           .80
+007C   3048           00195                 MOVLW           .72     ; Assuming 72 is max number of strip.
 007D   00D0           00196                 MOVWF           loop_counter
 Warning[207]: Found label after column 1. (Strip_loop)
 007E                  00197     Strip_loop  
@@ -293,7 +293,7 @@ Warning[207]: Found label after column 1. (Strip_loop)
 0095                  00227 DELAY_40US                        ; Oscillator 1M, 10 instruction cycles
 0095   0064           00228           CLRWDT
 0096   0000           00229           NOP
-MPASM 5.77                          MAIN.ASM   7-22-2023  1:09:19         PAGE  6
+MPASM 5.77                          MAIN.ASM   7-22-2023  1:20:48         PAGE  6
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -331,7 +331,7 @@ Message[305]: Using default destination of 1 (file).
 00AC   0008           00257           RETURN
                       00258 ;/////////////////////////////////////////////////////////
 3C9C                  00259           END
-MPASM 5.77                          MAIN.ASM   7-22-2023  1:09:19         PAGE  7
+MPASM 5.77                          MAIN.ASM   7-22-2023  1:20:48         PAGE  7
 
 
 SYMBOL TABLE
@@ -390,7 +390,7 @@ CWG1DBR3                          00000003
 CWG1DBR4                          00000004
 CWG1DBR5                          00000005
 D1N                               00000000
-MPASM 5.77                          MAIN.ASM   7-22-2023  1:09:19         PAGE  8
+MPASM 5.77                          MAIN.ASM   7-22-2023  1:20:48         PAGE  8
 
 
 SYMBOL TABLE
@@ -449,7 +449,7 @@ G3POL                             00000002
 G4D1N                             00000000
 G4D1T                             00000001
 G4D2N                             00000002
-MPASM 5.77                          MAIN.ASM   7-22-2023  1:09:19         PAGE  9
+MPASM 5.77                          MAIN.ASM   7-22-2023  1:20:48         PAGE  9
 
 
 SYMBOL TABLE
@@ -508,7 +508,7 @@ LC1D3S0                           00000000
 LC1D3S1                           00000001
 LC1D3S2                           00000002
 LC1D4S0                           00000004
-MPASM 5.77                          MAIN.ASM   7-22-2023  1:09:19         PAGE 10
+MPASM 5.77                          MAIN.ASM   7-22-2023  1:20:48         PAGE 10
 
 
 SYMBOL TABLE
@@ -567,7 +567,7 @@ LCINTP                            00000004
 LCMODE0                           00000000
 LCMODE1                           00000001
 LCMODE2                           00000002
-MPASM 5.77                          MAIN.ASM   7-22-2023  1:09:19         PAGE 11
+MPASM 5.77                          MAIN.ASM   7-22-2023  1:20:48         PAGE 11
 
 
 SYMBOL TABLE
@@ -626,7 +626,7 @@ NCO1INC13                         00000005
 NCO1INC14                         00000006
 NCO1INC15                         00000007
 NCO1INC2                          00000002
-MPASM 5.77                          MAIN.ASM   7-22-2023  1:09:19         PAGE 12
+MPASM 5.77                          MAIN.ASM   7-22-2023  1:20:48         PAGE 12
 
 
 SYMBOL TABLE
@@ -685,7 +685,7 @@ PWM1DCH5                          00000005
 PWM1DCH6                          00000006
 PWM1DCH7                          00000007
 PWM1DCL                           00000014
-MPASM 5.77                          MAIN.ASM   7-22-2023  1:09:19         PAGE 13
+MPASM 5.77                          MAIN.ASM   7-22-2023  1:20:48         PAGE 13
 
 
 SYMBOL TABLE
@@ -744,7 +744,7 @@ TMR0IF                            00000002
 TMR0_ISR                          0000000E
 TMR0_ISR_RT                       00000020
 TMR2                              00000011
-MPASM 5.77                          MAIN.ASM   7-22-2023  1:09:19         PAGE 14
+MPASM 5.77                          MAIN.ASM   7-22-2023  1:20:48         PAGE 14
 
 
 SYMBOL TABLE
@@ -803,7 +803,7 @@ _BORV_LO                          00003FFF
 _CONFIG                           00002007
 _CP_OFF                           00003FFF
 _CP_ON                            00003F7F
-MPASM 5.77                          MAIN.ASM   7-22-2023  1:09:19         PAGE 15
+MPASM 5.77                          MAIN.ASM   7-22-2023  1:20:48         PAGE 15
 
 
 SYMBOL TABLE
