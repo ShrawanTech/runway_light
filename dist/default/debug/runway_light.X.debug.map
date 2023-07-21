@@ -1,0 +1,80 @@
+MPLINK 5.08, LINKER
+Linker Map File - Created Sat Jul 22 01:01:06 2023
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+                   .org_0       code   0x000000    program   0x000002
+                   .cinit    romdata   0x000001    program   0x000004
+                   .org_1       code   0x000004    program   0x000152
+.config_2007_BUILD/DEFAULT/DEBUG/MAIN.O       code   0x002007    program   0x000002
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x000002      
+                            0x000004    0x0000ac      
+                            0x002007    0x002007      
+            173 out of 518 program addresses used, program memory utilization is 33%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+              DELAY_150MS   0x00009d    program     static C:\Users\Shrawan\OneDrive - Roobuck Pty Ltd\Ram Working Folder\PCB Design\Strip Light\run_way_Light\runway_light.X\main.asm
+                DELAY_2MS   0x0000a3    program     static C:\Users\Shrawan\OneDrive - Roobuck Pty Ltd\Ram Working Folder\PCB Design\Strip Light\run_way_Light\runway_light.X\main.asm
+              DELAY_2MS_1   0x0000a5    program     static C:\Users\Shrawan\OneDrive - Roobuck Pty Ltd\Ram Working Folder\PCB Design\Strip Light\run_way_Light\runway_light.X\main.asm
+               DELAY_40US   0x000095    program     static C:\Users\Shrawan\OneDrive - Roobuck Pty Ltd\Ram Working Folder\PCB Design\Strip Light\run_way_Light\runway_light.X\main.asm
+                      FF1   0x000065    program     static C:\Users\Shrawan\OneDrive - Roobuck Pty Ltd\Ram Working Folder\PCB Design\Strip Light\run_way_Light\runway_light.X\main.asm
+                      ISR   0x000004    program     static C:\Users\Shrawan\OneDrive - Roobuck Pty Ltd\Ram Working Folder\PCB Design\Strip Light\run_way_Light\runway_light.X\main.asm
+                     MAIN   0x00002f    program     static C:\Users\Shrawan\OneDrive - Roobuck Pty Ltd\Ram Working Folder\PCB Design\Strip Light\run_way_Light\runway_light.X\main.asm
+                     NEXT   0x000033    program     static C:\Users\Shrawan\OneDrive - Roobuck Pty Ltd\Ram Working Folder\PCB Design\Strip Light\run_way_Light\runway_light.X\main.asm
+                  RESTART   0x000042    program     static C:\Users\Shrawan\OneDrive - Roobuck Pty Ltd\Ram Working Folder\PCB Design\Strip Light\run_way_Light\runway_light.X\main.asm
+                    START   0x000000    program     static C:\Users\Shrawan\OneDrive - Roobuck Pty Ltd\Ram Working Folder\PCB Design\Strip Light\run_way_Light\runway_light.X\main.asm
+               Strip_loop   0x00007e    program     static C:\Users\Shrawan\OneDrive - Roobuck Pty Ltd\Ram Working Folder\PCB Design\Strip Light\run_way_Light\runway_light.X\main.asm
+                 TMR0_ISR   0x00000e    program     static C:\Users\Shrawan\OneDrive - Roobuck Pty Ltd\Ram Working Folder\PCB Design\Strip Light\run_way_Light\runway_light.X\main.asm
+              TMR0_ISR_RT   0x000020    program     static C:\Users\Shrawan\OneDrive - Roobuck Pty Ltd\Ram Working Folder\PCB Design\Strip Light\run_way_Light\runway_light.X\main.asm
+               TMRO_ISR_1   0x00002c    program     static C:\Users\Shrawan\OneDrive - Roobuck Pty Ltd\Ram Working Folder\PCB Design\Strip Light\run_way_Light\runway_light.X\main.asm
+               TMRO_ISR_2   0x000029    program     static C:\Users\Shrawan\OneDrive - Roobuck Pty Ltd\Ram Working Folder\PCB Design\Strip Light\run_way_Light\runway_light.X\main.asm
+               TMRO_ISR_3   0x000026    program     static C:\Users\Shrawan\OneDrive - Roobuck Pty Ltd\Ram Working Folder\PCB Design\Strip Light\run_way_Light\runway_light.X\main.asm
+                 WORK_CY1   0x00004a    program     static C:\Users\Shrawan\OneDrive - Roobuck Pty Ltd\Ram Working Folder\PCB Design\Strip Light\run_way_Light\runway_light.X\main.asm
+                 WORK_CY2   0x000057    program     static C:\Users\Shrawan\OneDrive - Roobuck Pty Ltd\Ram Working Folder\PCB Design\Strip Light\run_way_Light\runway_light.X\main.asm
+               WORK_CY2_1   0x000060    program     static C:\Users\Shrawan\OneDrive - Roobuck Pty Ltd\Ram Working Folder\PCB Design\Strip Light\run_way_Light\runway_light.X\main.asm
+               WORK_CY2_2   0x00006b    program     static C:\Users\Shrawan\OneDrive - Roobuck Pty Ltd\Ram Working Folder\PCB Design\Strip Light\run_way_Light\runway_light.X\main.asm
+     WORK_ERROR_CONDITION   0x000094    program     static C:\Users\Shrawan\OneDrive - Roobuck Pty Ltd\Ram Working Folder\PCB Design\Strip Light\run_way_Light\runway_light.X\main.asm
+WORK_ERROR_CONDITION_LOOP   0x00007c    program     static C:\Users\Shrawan\OneDrive - Roobuck Pty Ltd\Ram Working Folder\PCB Design\Strip Light\run_way_Light\runway_light.X\main.asm
+             _.org_1_00A1   0x0000a1    program     static C:\Users\Shrawan\OneDrive - Roobuck Pty Ltd\Ram Working Folder\PCB Design\Strip Light\run_way_Light\runway_light.X\main.asm
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                    START   0x000000    program     static C:\Users\Shrawan\OneDrive - Roobuck Pty Ltd\Ram Working Folder\PCB Design\Strip Light\run_way_Light\runway_light.X\main.asm
+                      ISR   0x000004    program     static C:\Users\Shrawan\OneDrive - Roobuck Pty Ltd\Ram Working Folder\PCB Design\Strip Light\run_way_Light\runway_light.X\main.asm
+                 TMR0_ISR   0x00000e    program     static C:\Users\Shrawan\OneDrive - Roobuck Pty Ltd\Ram Working Folder\PCB Design\Strip Light\run_way_Light\runway_light.X\main.asm
+              TMR0_ISR_RT   0x000020    program     static C:\Users\Shrawan\OneDrive - Roobuck Pty Ltd\Ram Working Folder\PCB Design\Strip Light\run_way_Light\runway_light.X\main.asm
+               TMRO_ISR_3   0x000026    program     static C:\Users\Shrawan\OneDrive - Roobuck Pty Ltd\Ram Working Folder\PCB Design\Strip Light\run_way_Light\runway_light.X\main.asm
+               TMRO_ISR_2   0x000029    program     static C:\Users\Shrawan\OneDrive - Roobuck Pty Ltd\Ram Working Folder\PCB Design\Strip Light\run_way_Light\runway_light.X\main.asm
+               TMRO_ISR_1   0x00002c    program     static C:\Users\Shrawan\OneDrive - Roobuck Pty Ltd\Ram Working Folder\PCB Design\Strip Light\run_way_Light\runway_light.X\main.asm
+                     MAIN   0x00002f    program     static C:\Users\Shrawan\OneDrive - Roobuck Pty Ltd\Ram Working Folder\PCB Design\Strip Light\run_way_Light\runway_light.X\main.asm
+                     NEXT   0x000033    program     static C:\Users\Shrawan\OneDrive - Roobuck Pty Ltd\Ram Working Folder\PCB Design\Strip Light\run_way_Light\runway_light.X\main.asm
+                  RESTART   0x000042    program     static C:\Users\Shrawan\OneDrive - Roobuck Pty Ltd\Ram Working Folder\PCB Design\Strip Light\run_way_Light\runway_light.X\main.asm
+                 WORK_CY1   0x00004a    program     static C:\Users\Shrawan\OneDrive - Roobuck Pty Ltd\Ram Working Folder\PCB Design\Strip Light\run_way_Light\runway_light.X\main.asm
+                 WORK_CY2   0x000057    program     static C:\Users\Shrawan\OneDrive - Roobuck Pty Ltd\Ram Working Folder\PCB Design\Strip Light\run_way_Light\runway_light.X\main.asm
+               WORK_CY2_1   0x000060    program     static C:\Users\Shrawan\OneDrive - Roobuck Pty Ltd\Ram Working Folder\PCB Design\Strip Light\run_way_Light\runway_light.X\main.asm
+                      FF1   0x000065    program     static C:\Users\Shrawan\OneDrive - Roobuck Pty Ltd\Ram Working Folder\PCB Design\Strip Light\run_way_Light\runway_light.X\main.asm
+               WORK_CY2_2   0x00006b    program     static C:\Users\Shrawan\OneDrive - Roobuck Pty Ltd\Ram Working Folder\PCB Design\Strip Light\run_way_Light\runway_light.X\main.asm
+WORK_ERROR_CONDITION_LOOP   0x00007c    program     static C:\Users\Shrawan\OneDrive - Roobuck Pty Ltd\Ram Working Folder\PCB Design\Strip Light\run_way_Light\runway_light.X\main.asm
+               Strip_loop   0x00007e    program     static C:\Users\Shrawan\OneDrive - Roobuck Pty Ltd\Ram Working Folder\PCB Design\Strip Light\run_way_Light\runway_light.X\main.asm
+     WORK_ERROR_CONDITION   0x000094    program     static C:\Users\Shrawan\OneDrive - Roobuck Pty Ltd\Ram Working Folder\PCB Design\Strip Light\run_way_Light\runway_light.X\main.asm
+               DELAY_40US   0x000095    program     static C:\Users\Shrawan\OneDrive - Roobuck Pty Ltd\Ram Working Folder\PCB Design\Strip Light\run_way_Light\runway_light.X\main.asm
+              DELAY_150MS   0x00009d    program     static C:\Users\Shrawan\OneDrive - Roobuck Pty Ltd\Ram Working Folder\PCB Design\Strip Light\run_way_Light\runway_light.X\main.asm
+             _.org_1_00A1   0x0000a1    program     static C:\Users\Shrawan\OneDrive - Roobuck Pty Ltd\Ram Working Folder\PCB Design\Strip Light\run_way_Light\runway_light.X\main.asm
+                DELAY_2MS   0x0000a3    program     static C:\Users\Shrawan\OneDrive - Roobuck Pty Ltd\Ram Working Folder\PCB Design\Strip Light\run_way_Light\runway_light.X\main.asm
+              DELAY_2MS_1   0x0000a5    program     static C:\Users\Shrawan\OneDrive - Roobuck Pty Ltd\Ram Working Folder\PCB Design\Strip Light\run_way_Light\runway_light.X\main.asm
+
+
