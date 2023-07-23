@@ -18,6 +18,7 @@ CNT_NUM		EQU     0X47
 RE_NUM1		EQU     0X48
 RE_NUM2		EQU     0X49
 loop_counter	EQU	0X50
+loop_counter2	EQU	0X51
 ;**********************************************************************
 START     ORG     0x000             ; processor reset vector
           GOTO    MAIN             ; go to beginning of program
@@ -154,23 +155,28 @@ WORK_CY2
 		CALL		DELAY_150MS; RA1 Delay Delay Repeating s0 that RA3 get enough time to get HIGH from prvious MCU
 		BTFSS		PORTA,RA3	;Check if the KEY is pressed or RA3 is high, press to skip the next step, BTFSS-Bit Test f, Skip if Set/High
 		GOTO		WORK_ERROR_CONDITION_LOOP ; If RA3 is 0 jump to WORK_CY2
-		GOTO		WORK_CY1
+		GOTO		WORK_CY2_1
 		;CLRW		
 		;MOVWF		RE_NUM1
 		;MOVWF		RE_NUM2	
 WORK_CY2_1
+	          MOVLW  0X0A	; 75 times loop
+		  MOVWF  loop_counter2	
+	WORK_CY2_1_1	
 		INCFSZ		RE_NUM2	;RE_NUM2=0 skip next sentence
+		DECFSZ		loop_counter2
 		GOTO		FF1
+		GOTO		WORK_CY2
 		INCFSZ		RE_NUM1	;RE_NUM1=0 skip next sentence
 		GOTO		FF1
-		GOTO		RESTART
+		
 FF1		
 		CALL		DELAY_40US
 		BTFSS 		PORTA,RA3   ;Check if RA3 is high, if low go to WORK_CY2_1 
-		GOTO		WORK_CY2_1; chnaged from  WORK_CY2_1
+		GOTO		WORK_CY2_1_1  ;chnaged from  WORK_CY2_1
 		CALL		DELAY_40US
 		BTFSS		PORTA,RA3   ;Check if the KEY is pressed or RA3 is high, if low go back to WORK_CY2_1 else next line WORK_CY2_2
-		GOTO            WORK_CY2_1  ;anti-shake
+		GOTO            WORK_CY2_1_1  ;anti-shake
 WORK_CY2_2
 		CALL		DELAY_40US
 		BTFSC 		PORTA,RA3   ;Check if RA3 is high, if low go to WORK_CY2_2 again, BTFSC- Bit Test f, Skip if Clear or Low 
@@ -188,7 +194,7 @@ WORK_CY2_2
 		CALL		DELAY_150MS
 		MOVLW		(1<<RA1)
 		MOVWF		 LATA	
-		GOTO 		WORK_CY2_1
+		GOTO 		FF1
 ;/////////////////////////////////////////////////////////
 	
 WORK_ERROR_CONDITION_LOOP
@@ -197,27 +203,26 @@ WORK_ERROR_CONDITION_LOOP
     Strip_loop	
 
 		BTFSC 		PORTA,RA3   ;Check if RA3 is high, if low go to WORK_CY2_2 again, BTFSC- Bit Test f, Skip if Clear or Low 
-		GOTO		WORK_CY1
+		GOTO		WORK_CY2_1
 		CALL		DELAY_150MS
 		BTFSC 		PORTA,RA3   ;Check if RA3 is high, if low go to WORK_CY2_2 again, BTFSC- Bit Test f, Skip if Clear or Low 
-		GOTO		WORK_CY1
+		GOTO		WORK_CY2_1
 		CALL		DELAY_150MS
 		BTFSC 		PORTA,RA3   ;Check if RA3 is high, if low go to WORK_CY2_2 again, BTFSC- Bit Test f, Skip if Clear or Low 
-		GOTO		WORK_CY1
+		GOTO		WORK_CY2_1
 		CALL		DELAY_150MS
 		BTFSC 		PORTA,RA3   ;Check if RA3 is high, if low go to WORK_CY2_2 again, BTFSC- Bit Test f, Skip if Clear or Low 
-		GOTO		WORK_CY1
+		GOTO		WORK_CY2_1
 		CALL		DELAY_150MS
 		BTFSC 		PORTA,RA3   ;Check if RA3 is high, if low go to WORK_CY2_2 again, BTFSC- Bit Test f, Skip if Clear or Low 
-		GOTO		WORK_CY1
+		GOTO		WORK_CY2_1
 		CALL		DELAY_150MS
 		BTFSC 		PORTA,RA3   ;Check if RA3 is high, if low go to WORK_CY2_2 again, BTFSC- Bit Test f, Skip if Clear or Low 
-		GOTO		WORK_CY1
+		GOTO		WORK_CY2_1
 		CALL		DELAY_150MS
 		BTFSC 		PORTA,RA3   ;Check if RA3 is high, if low go to WORK_CY2_2 again, BTFSC- Bit Test f, Skip if Clear or Low 
-		GOTO		WORK_CY1
+		GOTO		WORK_CY2_1
 		DECFSZ		loop_counter, 1
-		
 		GOTO		Strip_loop
 			
 WORK_ERROR_CONDITION ; After waiting for Max time Start Normal
@@ -235,7 +240,7 @@ DELAY_40US                        ; Oscillator 1M, 10 instruction cycles
           RETURN
 
 DELAY_150MS
-          MOVLW  0X4B
+          MOVLW  0X4B	; 75 times loop
           MOVWF  TEMP3
           CALL   DELAY_2MS
           DECFSZ TEMP3
@@ -244,7 +249,7 @@ DELAY_150MS
 
 	  
 DELAY_2MS
-          MOVLW  0X0A
+          MOVLW  0X0A ; 10 times, i.e 2ms divide by 40us is 50 and 50 divide by 5(five time call to 40us) is 10
           MOVWF  TEMP2
 DELAY_2MS_1
           CALL   DELAY_40US
