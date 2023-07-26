@@ -154,12 +154,14 @@ WORK_CY2
 		CALL		DELAY_150MS; RA1 Delay Delay Repeating s0 that RA3 get enough time to get HIGH from prvious MCU
 		BTFSS		PORTA,RA3	;Check if the KEY is pressed or RA3 is high, press to skip the next step, BTFSS-Bit Test f, Skip if Set/High
 		GOTO		WORK_ERROR_CONDITION_LOOP ; If RA3 is 0 jump to WORK_CY2
+		CALL		DELAY_150MS
+		CALL		DELAY_150MS
 		GOTO		WORK_CY2_1
 		;CLRW		
 		;MOVWF		RE_NUM1
 		;MOVWF		RE_NUM2	
 WORK_CY2_1
-	          MOVLW  0X1D4C	; 7500 times loop, Reason is it has to  wait for 300ms in each loop 40uS is lost
+	          MOVLW  0X7530	; 30,000 times loop, Reason is it has to  wait for 1200ms 2 cycle in each loop 40uS is lost
 		  MOVWF  loop_counter2	
 	WORK_CY2_1_1	
 		INCFSZ		RE_NUM2	;RE_NUM2=0 skip next sentence
@@ -200,32 +202,41 @@ WORK_ERROR_CONDITION_LOOP
 		CALL		DELAY_150MS
 		CALL		DELAY_150MS ; Previous Delay accounted
 		
-		MOVLW		.72	; Assuming 72 is max number of strip.
+		MOVLW		.100	; Assuming 72 is max number of strip.
 		MOVWF		loop_counter
     Strip_loop	
-
+		BTFSC 		PORTA,RA3   ;Check if RA3 is high, if low go to WORK_CY2_2 again, BTFSC- Bit Test f, Skip if Clear or Low 
+		GOTO		WORK_CY2_1
 		CALL		DELAY_150MS
+		BTFSC 		PORTA,RA3   ;Check if RA3 is high, if low go to WORK_CY2_2 again, BTFSC- Bit Test f, Skip if Clear or Low 
+		GOTO		WORK_CY2_1
 		CALL		DELAY_150MS
+		BTFSC 		PORTA,RA3   ;Check if RA3 is high, if low go to WORK_CY2_2 again, BTFSC- Bit Test f, Skip if Clear or Low 
+		GOTO		WORK_CY2_1
 		CALL		DELAY_150MS
+		BTFSC 		PORTA,RA3   ;Check if RA3 is high, if low go to WORK_CY2_2 again, BTFSC- Bit Test f, Skip if Clear or Low 
+		GOTO		WORK_CY2_1
 		CALL		DELAY_150MS
-		BTFSC 		PORTA,RA3   ;Check if RA3 is high, if low go to WORK_CY2_1 again, BTFSC- Bit Test f, Skip if Clear or Low 
+		BTFSC 		PORTA,RA3   ;Check if RA3 is high, if low go to WORK_CY2_1 again, BTFSC- Bit Test f, Skip if Clear or Low, i instruction cycle
 		GOTO		WORK_CY2_1
 		DECFSZ		loop_counter, 1
 		GOTO		Strip_loop
 			
 WORK_ERROR_CONDITION ; After waiting for Max time Start Normal
+		CALL		DELAY_150MS
+		CALL		DELAY_150MS
 		GOTO		WORK_CY1		
 
 		
 DELAY_40US                        ; Oscillator 1M, 10 instruction cycles
-          CLRWDT
-          NOP
-          NOP
-          NOP
-          NOP
-          NOP
-          NOP
-          RETURN
+          CLRWDT		; 1 cycles
+          NOP			; 1 cycles
+          NOP			; 1 cycles
+          NOP			; 1 cycles
+          NOP			; 1 cycles
+          NOP			; 1 cycles
+          NOP			; 1 cycles
+          RETURN		; 2 cycle
 
 DELAY_150MS
           MOVLW  0X4B	; 75 times loop
