@@ -1,4 +1,4 @@
-MPASM 5.77                          MAIN.ASM   7-22-2023  1:20:48         PAGE  1
+MPASM 5.77                          MAIN.ASM   7-26-2023  15:34:35         PAGE  1
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -35,303 +35,295 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
   00000048            00018 RE_NUM1         EQU     0X48
   00000049            00019 RE_NUM2         EQU     0X49
   00000050            00020 loop_counter    EQU     0X50
-                      00021 ;**********************************************************************
-                      00022 START     ORG     0x000             ; processor reset vector
-0000   2???           00023           GOTO    MAIN             ; go to beginning of program
-                      00024 
-                      00025 ISR       ORG     0x004             ; interrupt vector location
-                      00026      
-                      00027 ;         Context saving for ISR
-0004   00C0           00028           MOVWF   w_temp            ; save off current W register contents
-0005   0803           00029           MOVF    STATUS,w          ; move status register into W register
-0006   00C1           00030           MOVWF   status_temp       ; save off contents of STATUS register
-                      00031          ;INSERT INTERRUPT CODE HERE
-0007   190B           00032                 BTFSC   INTCON,TMR0IF
-0008   2???           00033                 GOTO    TMR0_ISR
-                      00034                 ;BTFSC  INTCON,IOCIF
-                      00035                 ;GOTO   IOC_ISR
-                      00036 ;;         -----SAMPLE CODE----- if the interrupt came from the timer, execute the
-                      00037 ;;         TMR0 interrupt service routine. 
-                      00038 ;          BTFSC   INTCON, T0IF ; Uncomment this line to test sample code 
-                      00039 ;          CALL    TMR0_ISR     ; Uncomment this line to test sample code     
-                      00040 
-                      00041 ;         Restore context before returning from interrupt
-0009   0841           00042           MOVF    status_temp,w   ; retrieve copy of STATUS register
-MPASM 5.77                          MAIN.ASM   7-22-2023  1:20:48         PAGE  2
+  00000051            00021 loop_counter2   EQU     0X51
+                      00022 ;**********************************************************************
+                      00023 START     ORG     0x000             ; processor reset vector
+0000   2???           00024           GOTO    MAIN             ; go to beginning of program
+                      00025 
+                      00026 ISR       ORG     0x004             ; interrupt vector location
+                      00027      
+                      00028 ;         Context saving for ISR
+0004   00C0           00029           MOVWF   w_temp            ; save off current W register contents
+0005   0803           00030           MOVF    STATUS,w          ; move status register into W register
+0006   00C1           00031           MOVWF   status_temp       ; save off contents of STATUS register
+                      00032          ;INSERT INTERRUPT CODE HERE
+0007   190B           00033                 BTFSC   INTCON,TMR0IF
+0008   2???           00034                 GOTO    TMR0_ISR
+                      00035                 ;BTFSC  INTCON,IOCIF
+                      00036                 ;GOTO   IOC_ISR
+                      00037 ;;         -----SAMPLE CODE----- if the interrupt came from the timer, execute the
+                      00038 ;;         TMR0 interrupt service routine. 
+                      00039 ;          BTFSC   INTCON, T0IF ; Uncomment this line to test sample code 
+                      00040 ;          CALL    TMR0_ISR     ; Uncomment this line to test sample code     
+                      00041 
+                      00042 ;         Restore context before returning from interrupt
+MPASM 5.77                          MAIN.ASM   7-26-2023  15:34:35         PAGE  2
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
   VALUE
 
-000A   0083           00043           MOVWF   STATUS          ; restore pre-isr STATUS register contents
-000B   0EC0           00044           SWAPF   w_temp,f
-000C   0E40           00045           SWAPF   w_temp,w        ; restore pre-isr W register contents
-000D   0009           00046           RETFIE                  ; return from interrupt
-                      00047 ;**************************************************************
-000E                  00048 TMR0_ISR
-000E   30FB           00049                   MOVLW 0XFB
+0009   0841           00043           MOVF    status_temp,w   ; retrieve copy of STATUS register
+000A   0083           00044           MOVWF   STATUS          ; restore pre-isr STATUS register contents
+000B   0EC0           00045           SWAPF   w_temp,f
+000C   0E40           00046           SWAPF   w_temp,w        ; restore pre-isr W register contents
+000D   0009           00047           RETFIE                  ; return from interrupt
+                      00048 ;**************************************************************
+000E                  00049 TMR0_ISR
+000E   30FB           00050                   MOVLW 0XFB
 Message[305]: Using default destination of 1 (file).
-000F   058B           00050                   ANDWF INTCON
-0010   0BC7           00051                   DECFSZ CNT_NUM,1
-0011   2???           00052                   GOTO TMR0_ISR_RT
-0012   30FF           00053                   MOVLW 0XFF
-0013   00C7           00054                   MOVWF CNT_NUM
-0014   3003           00055                   MOVLW 0X03
-0015   0645           00056                   XORWF KEY,W
-0016   1903           00057                   BTFSC STATUS,Z;KEY is not equal to 3 skip the next step
-0017   2???           00058                   GOTO  TMRO_ISR_3      
-0018   3002           00059                   MOVLW 0X02
-0019   0645           00060                   XORWF KEY,W
-001A   1903           00061                   BTFSC STATUS,Z;KEY is not equal to 2 skip the next step
-001B   2???           00062                   GOTO  TMRO_ISR_2  
-001C   3001           00063                   MOVLW 0X01
-001D   0645           00064                   XORWF KEY,W
-001E   1903           00065                   BTFSC STATUS,Z;KEY is not equal to 1 skip the next step
-001F   2???           00066                   GOTO  TMRO_ISR_1
-0020                  00067 TMR0_ISR_RT
+000F   058B           00051                   ANDWF INTCON
+0010   0BC7           00052                   DECFSZ CNT_NUM,1
+0011   2???           00053                   GOTO TMR0_ISR_RT
+0012   30FF           00054                   MOVLW 0XFF
+0013   00C7           00055                   MOVWF CNT_NUM
+0014   3003           00056                   MOVLW 0X03
+0015   0645           00057                   XORWF KEY,W
+0016   1903           00058                   BTFSC STATUS,Z;KEY is not equal to 3 skip the next step
+0017   2???           00059                   GOTO  TMRO_ISR_3      
+0018   3002           00060                   MOVLW 0X02
+0019   0645           00061                   XORWF KEY,W
+001A   1903           00062                   BTFSC STATUS,Z;KEY is not equal to 2 skip the next step
+001B   2???           00063                   GOTO  TMRO_ISR_2  
+001C   3001           00064                   MOVLW 0X01
+001D   0645           00065                   XORWF KEY,W
+001E   1903           00066                   BTFSC STATUS,Z;KEY is not equal to 1 skip the next step
+001F   2???           00067                   GOTO  TMRO_ISR_1
+0020                  00068 TMR0_ISR_RT
 Message[305]: Using default destination of 1 (file).
-0020   03C5           00068                   DECF  KEY
-0021   0E41           00069                   SWAPF status_temp,W ;Swap STATUS_TEMP register into W
-                      00070                   ;(sets bank to original state)
-0022   0083           00071                   MOVWF STATUS ;Move W into STATUS register
-0023   0EC0           00072                   SWAPF w_temp,F ;Swap W_TEMP
-0024   0E40           00073                   SWAPF w_temp,W ;Swap W_TEMP into W
-0025   0009           00074                   RETFIE
-                      00075 ;RA2=1
-0026                  00076 TMRO_ISR_3
-0026   3004           00077                   MOVLW (1<<RA2)
-0027   0087           00078                   MOVWF LATA
-0028   2???           00079                   GOTO TMR0_ISR_RT      
-                      00080 ;RA0=1
-0029                  00081 TMRO_ISR_2
-0029   3001           00082                   MOVLW (1<<RA0)
-002A   0087           00083                   MOVWF LATA
-002B   2???           00084                   GOTO TMR0_ISR_RT      
-                      00085 ;RA1=1
-002C                  00086 TMRO_ISR_1
-002C   3002           00087                   MOVLW (1<<RA1)
-002D   0087           00088                   MOVWF LATA
-002E   2???           00089                   GOTO TMR0_ISR_RT              
-                      00090 ;**********************************************************************
-002F                  00091 MAIN
-002F   3030           00092                 MOVLW           (1<<IRCF1)|(1<<IRCF0)                                                   
+0020   03C5           00069                   DECF  KEY
+0021   0E41           00070                   SWAPF status_temp,W ;Swap STATUS_TEMP register into W
+                      00071                   ;(sets bank to original state)
+0022   0083           00072                   MOVWF STATUS ;Move W into STATUS register
+0023   0EC0           00073                   SWAPF w_temp,F ;Swap W_TEMP
+0024   0E40           00074                   SWAPF w_temp,W ;Swap W_TEMP into W
+0025   0009           00075                   RETFIE
+                      00076 ;RA2=1
+0026                  00077 TMRO_ISR_3
+0026   3004           00078                   MOVLW (1<<RA2)
+0027   0087           00079                   MOVWF LATA
+0028   2???           00080                   GOTO TMR0_ISR_RT      
+                      00081 ;RA0=1
+0029                  00082 TMRO_ISR_2
+0029   3001           00083                   MOVLW (1<<RA0)
+002A   0087           00084                   MOVWF LATA
+002B   2???           00085                   GOTO TMR0_ISR_RT      
+                      00086 ;RA1=1
+002C                  00087 TMRO_ISR_1
+002C   3002           00088                   MOVLW (1<<RA1)
+002D   0087           00089                   MOVWF LATA
+002E   2???           00090                   GOTO TMR0_ISR_RT              
+                      00091 ;**********************************************************************
+002F                  00092 MAIN
+002F   3030           00093                 MOVLW           (1<<IRCF1)|(1<<IRCF0)                                                   
+MPASM 5.77                          MAIN.ASM   7-26-2023  15:34:35         PAGE  3
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
                              
-MPASM 5.77                          MAIN.ASM   7-22-2023  1:20:48         PAGE  3
-
-
-LOC  OBJECT CODE     LINE SOURCE TEXT
-  VALUE
-
-0030   0090           00093                 MOVWF           OSCCON      ;set to internal frequency 1M 
-                      00094                 ;RAM cleared
-0031   3040           00095                 MOVLW           0X40        ; initialize pointer
-0032   0084           00096                 MOVWF           FSR         ; to RAM
-                      00097 
+0030   0090           00094                 MOVWF           OSCCON      ;set to internal frequency 1M 
+                      00095                 ;RAM cleared
+0031   3040           00096                 MOVLW           0X40        ; initialize pointer
+0032   0084           00097                 MOVWF           FSR         ; to RAM
                       00098 
-0033                  00099 NEXT  
-0033   0180           00100                 CLRF            INDF        ; clear INDF register
-0034   0A84           00101                 INCF            FSR, F      ; inc pointer
-0035   1F84           00102                 BTFSS           FSR,7       ; all done?
-0036   2???           00103                 GOTO            NEXT        ; no clear next
-                      00104 
+                      00099 
+0033                  00100 NEXT  
+0033   0180           00101                 CLRF            INDF        ; clear INDF register
+0034   0A84           00102                 INCF            FSR, F      ; inc pointer
+0035   1F84           00103                 BTFSS           FSR,7       ; all done?
+0036   2???           00104                 GOTO            NEXT        ; no clear next
+                      00105 
 Message[312]: Page or Bank selection not needed for this device.  No code generated.
-                      00105                 BANKSEL         PORTA
-0037   0103           00106                 CLRW
-0038   0085           00107                 MOVWF           PORTA
+                      00106                 BANKSEL         PORTA
+0037   0103           00107                 CLRW
+0038   0085           00108                 MOVWF           PORTA
 Warning[202]: Argument out of range.  Least significant bits used.
-0039   0800           00108                 MOVF            W,OPTION_REG
-003A   39DF           00109                 ANDLW           0XDF
-003B   008E           00110                 MOVWF           OPTION_REG
-003C   0103           00111                 CLRW            
-003D   0089           00112                 MOVWF           WPUA    ; close pull up                                                 
+0039   0800           00109                 MOVF            W,OPTION_REG
+003A   39DF           00110                 ANDLW           0XDF
+003B   008E           00111                 MOVWF           OPTION_REG
+003C   0103           00112                 CLRW            
+003D   0089           00113                 MOVWF           WPUA    ; close pull up                                                 
                                     
 Message[312]: Page or Bank selection not needed for this device.  No code generated.
-                      00113                 BANKSEL         TRISA   ;IO port set output mode
-003E   3008           00114                 MOVLW           (1<<RA3)
-003F   0086           00115                 MOVWF           TRISA                                                                   
-0040   300F           00116                 MOVLW           (1<<WDTPS2)|(1<<WDTPS1)|(1<<WDTPS0)|(1<<SWDTEN)
-0041   00B0           00117                 MOVWF           WDTCON          ;Set watchdog frequency division, open watchdog         
+                      00114                 BANKSEL         TRISA   ;IO port set output mode
+003E   3008           00115                 MOVLW           (1<<RA3)
+003F   0086           00116                 MOVWF           TRISA                                                                   
+0040   300F           00117                 MOVLW           (1<<WDTPS2)|(1<<WDTPS1)|(1<<WDTPS0)|(1<<SWDTEN)
+0041   00B0           00118                 MOVWF           WDTCON          ;Set watchdog frequency division, open watchdog         
                                                             
 Message[312]: Page or Bank selection not needed for this device.  No code generated.
-                      00118                 BANKSEL         PORTA
-                      00119                 ;MOVLW          (1<<GIE)|(1<<PEIE)|(1<<TMR0IE)
-                      00120                 ;MOVWF          INTCON
-                      00121                 ;MOVLW          0XFF
-                      00122                 ;MOVWF          CNT_NUM
-0042                  00123 RESTART
-0042   0103           00124                 CLRW
-0043   0087           00125                 MOVWF       LATA
-0044   2???           00126                 CALL        DELAY_150MS
-0045   2???           00127                 CALL        DELAY_150MS
-0046   2???           00128                 CALL        DELAY_150MS
-0047   2???           00129                 CALL        DELAY_150MS
-0048   1D85           00130                 BTFSS       PORTA,RA3   ;Check if the KEY is pressed or RA3 is high, press to skip the n
+                      00119                 BANKSEL         PORTA
+                      00120                 ;MOVLW          (1<<GIE)|(1<<PEIE)|(1<<TMR0IE)
+                      00121                 ;MOVWF          INTCON
+                      00122                 ;MOVLW          0XFF
+                      00123                 ;MOVWF          CNT_NUM
+0042                  00124 RESTART
+0042   0103           00125                 CLRW
+0043   0087           00126                 MOVWF       LATA
+0044   2???           00127                 CALL        DELAY_150MS
+0045   2???           00128                 CALL        DELAY_150MS
+0046   2???           00129                 CALL        DELAY_150MS
+0047   2???           00130                 CALL        DELAY_150MS
+0048   1D85           00131                 BTFSS       PORTA,RA3   ;Check if the KEY is pressed or RA3 is high, press to skip the n
                             ext step, BTFSS-Bit Test f, Skip if Set/High
-0049   2???           00131                 GOTO        WORK_CY2 ; If RA3 is 0 jump to WORK_CY2
-                      00132 
-004A                  00133 WORK_CY1
-004A   2???           00134                 CALL            DELAY_150MS
-004B   2???           00135                 CALL            DELAY_150MS
-004C   3004           00136                 MOVLW           (1<<RA2)
-004D   0087           00137                 MOVWF            LATA
-004E   2???           00138                 CALL            DELAY_150MS
-MPASM 5.77                          MAIN.ASM   7-22-2023  1:20:48         PAGE  4
+0049   2???           00132                 GOTO        WORK_CY2 ; If RA3 is 0 jump to WORK_CY2
+                      00133 
+004A                  00134 WORK_CY1
+                      00135 
+004A   3004           00136                 MOVLW           (1<<RA2)
+004B   0087           00137                 MOVWF            LATA
+004C   2???           00138                 CALL            DELAY_150MS
+MPASM 5.77                          MAIN.ASM   7-26-2023  15:34:35         PAGE  4
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
   VALUE
 
-004F   2???           00139                 CALL            DELAY_150MS
-0050   3001           00140                 MOVLW           (1<<RA0)
-0051   0087           00141                 MOVWF           LATA
-0052   2???           00142                 CALL            DELAY_150MS
-0053   2???           00143                 CALL            DELAY_150MS
-0054   3002           00144                 MOVLW           (1<<RA1)
-0055   0087           00145                 MOVWF           LATA
-0056   2???           00146                 GOTO            WORK_CY1
-                      00147 
-0057                  00148 WORK_CY2 
-0057   2???           00149                 CALL            DELAY_150MS
-0058   2???           00150                 CALL            DELAY_150MS ; RA2 Delay
-0059   2???           00151                 CALL            DELAY_150MS
-005A   2???           00152                 CALL            DELAY_150MS ; RA0 Delay
-005B   2???           00153                 CALL            DELAY_150MS
-005C   2???           00154                 CALL            DELAY_150MS; RA1 Delay Delay Repeating s0 that RA3 get enough time to ge
+004D   2???           00139                 CALL            DELAY_150MS
+004E   3001           00140                 MOVLW           (1<<RA0)
+004F   0087           00141                 MOVWF           LATA
+0050   2???           00142                 CALL            DELAY_150MS
+0051   2???           00143                 CALL            DELAY_150MS
+0052   3002           00144                 MOVLW           (1<<RA1)
+0053   0087           00145                 MOVWF           LATA
+0054   2???           00146                 CALL            DELAY_150MS
+0055   2???           00147                 CALL            DELAY_150MS
+0056   2???           00148                 GOTO            WORK_CY1
+                      00149 
+0057                  00150 WORK_CY2 
+0057   2???           00151                 CALL            DELAY_150MS
+0058   2???           00152                 CALL            DELAY_150MS ; RA0 Delay
+0059   2???           00153                 CALL            DELAY_150MS
+005A   2???           00154                 CALL            DELAY_150MS; RA1 Delay Delay Repeating s0 that RA3 get enough time to ge
                             t HIGH from prvious MCU
-005D   1D85           00155                 BTFSS           PORTA,RA3       ;Check if the KEY is pressed or RA3 is high, press to sk
+005B   1D85           00155                 BTFSS           PORTA,RA3       ;Check if the KEY is pressed or RA3 is high, press to sk
                             ip the next step, BTFSS-Bit Test f, Skip if Set/High
-005E   2???           00156                 GOTO            WORK_ERROR_CONDITION_LOOP ; If RA3 is 0 jump to WORK_CY2
-005F   2???           00157                 GOTO            WORK_CY1
+005C   2???           00156                 GOTO            WORK_ERROR_CONDITION_LOOP ; If RA3 is 0 jump to WORK_CY2
+005D   2???           00157                 GOTO            WORK_CY2_1
                       00158                 ;CLRW           
                       00159                 ;MOVWF          RE_NUM1
                       00160                 ;MOVWF          RE_NUM2 
-0060                  00161 WORK_CY2_1
+005E                  00161 WORK_CY2_1
+Warning[202]: Argument out of range.  Least significant bits used.
+005E   304C           00162                   MOVLW  0X1D4C ; 7500 times loop, Reason is it has to  wait for 300ms in each loop 40uS
+                             is lost
+005F   00D1           00163                   MOVWF  loop_counter2  
+Warning[207]: Found label after column 1. (WORK_CY2_1_1)
+0060                  00164         WORK_CY2_1_1    
 Message[305]: Using default destination of 1 (file).
-0060   0FC9           00162                 INCFSZ          RE_NUM2 ;RE_NUM2=0 skip next sentence
-0061   2???           00163                 GOTO            FF1
+0060   0FC9           00165                 INCFSZ          RE_NUM2 ;RE_NUM2=0 skip next sentence
 Message[305]: Using default destination of 1 (file).
-0062   0FC8           00164                 INCFSZ          RE_NUM1 ;RE_NUM1=0 skip next sentence
-0063   2???           00165                 GOTO            FF1
-0064   2???           00166                 GOTO            RESTART
-0065                  00167 FF1             
-0065   2???           00168                 CALL            DELAY_40US
-0066   1D85           00169                 BTFSS           PORTA,RA3   ;Check if RA3 is high, if low go to WORK_CY2_1 
-0067   2???           00170                 GOTO            WORK_CY2_1; chnaged from  WORK_CY2_1
-0068   2???           00171                 CALL            DELAY_40US
-0069   1D85           00172                 BTFSS           PORTA,RA3   ;Check if the KEY is pressed or RA3 is high, if low go back 
+0061   0BD1           00166                 DECFSZ          loop_counter2
+0062   2???           00167                 GOTO            FF1
+0063   2???           00168                 GOTO            WORK_CY1
+Message[305]: Using default destination of 1 (file).
+0064   0FC8           00169                 INCFSZ          RE_NUM1 ;RE_NUM1=0 skip next sentence
+0065   2???           00170                 GOTO            FF1
+                      00171                 
+0066                  00172 FF1             
+0066   2???           00173                 CALL            DELAY_40US
+0067   1D85           00174                 BTFSS           PORTA,RA3   ;Check if RA3 is high, if low go to WORK_CY2_1 
+0068   2???           00175                 GOTO            WORK_CY2_1_1  ;chnaged from  WORK_CY2_1
+0069   2???           00176                 CALL            DELAY_40US
+006A   1D85           00177                 BTFSS           PORTA,RA3   ;Check if the KEY is pressed or RA3 is high, if low go back 
                             to WORK_CY2_1 else next line WORK_CY2_2
-006A   2???           00173                 GOTO            WORK_CY2_1  ;anti-shake
-006B                  00174 WORK_CY2_2
-006B   2???           00175                 CALL            DELAY_40US
-006C   1985           00176                 BTFSC           PORTA,RA3   ;Check if RA3 is high, if low go to WORK_CY2_2 again, BTFSC-
+006B   2???           00178                 GOTO            WORK_CY2_1_1  ;anti-shake
+006C                  00179 WORK_CY2_2
+006C   2???           00180                 CALL            DELAY_40US
+006D   1985           00181                 BTFSC           PORTA,RA3   ;Check if RA3 is high, if low go to WORK_CY2_2 again, BTFSC-
                              Bit Test f, Skip if Clear or Low 
-006D   2???           00177                 GOTO            WORK_CY2_2 
-006E   2???           00178                 CALL            DELAY_40US
-006F   1985           00179                 BTFSC           PORTA,RA3   ;Check if the KEY is pressed or RA3 is high, press to skip t
+MPASM 5.77                          MAIN.ASM   7-26-2023  15:34:35         PAGE  5
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+006E   2???           00182                 GOTO            WORK_CY2_2 
+006F   2???           00183                 CALL            DELAY_40US
+0070   1985           00184                 BTFSC           PORTA,RA3   ;Check if the KEY is pressed or RA3 is high, press to skip t
                             he next step BTFSC- Bit Test f, Skip if Clear or Low 
-0070   2???           00180                 GOTO            WORK_CY2_2  ;??
-0071   3004           00181                 MOVLW           (1<<RA2)
-0072   0087           00182                 MOVWF            LATA
-0073   2???           00183                 CALL            DELAY_150MS
-0074   2???           00184                 CALL            DELAY_150MS
-MPASM 5.77                          MAIN.ASM   7-22-2023  1:20:48         PAGE  5
-
-
-LOC  OBJECT CODE     LINE SOURCE TEXT
-  VALUE
-
-0075   3001           00185                 MOVLW           (1<<RA0)
-0076   0087           00186                 MOVWF           LATA
-0077   2???           00187                 CALL            DELAY_150MS
-0078   2???           00188                 CALL            DELAY_150MS
-0079   3002           00189                 MOVLW           (1<<RA1)
-007A   0087           00190                 MOVWF            LATA   
-007B   2???           00191                 GOTO            WORK_CY2_1
-                      00192 ;/////////////////////////////////////////////////////////
-                      00193         
-007C                  00194 WORK_ERROR_CONDITION_LOOP
-007C   3048           00195                 MOVLW           .72     ; Assuming 72 is max number of strip.
-007D   00D0           00196                 MOVWF           loop_counter
+0071   2???           00185                 GOTO            WORK_CY2_2  ;??
+0072   3004           00186                 MOVLW           (1<<RA2)
+0073   0087           00187                 MOVWF            LATA
+0074   2???           00188                 CALL            DELAY_150MS
+0075   2???           00189                 CALL            DELAY_150MS
+0076   3001           00190                 MOVLW           (1<<RA0)
+0077   0087           00191                 MOVWF           LATA
+0078   2???           00192                 CALL            DELAY_150MS
+0079   2???           00193                 CALL            DELAY_150MS
+007A   3002           00194                 MOVLW           (1<<RA1)
+007B   0087           00195                 MOVWF            LATA   
+007C   2???           00196                 GOTO            WORK_CY2_1
+                      00197 ;/////////////////////////////////////////////////////////
+                      00198         
+007D                  00199 WORK_ERROR_CONDITION_LOOP
+007D   2???           00200                 CALL            DELAY_150MS
+007E   2???           00201                 CALL            DELAY_150MS ; Previous Delay accounted
+                      00202                 
+007F   3048           00203                 MOVLW           .72     ; Assuming 72 is max number of strip.
+0080   00D0           00204                 MOVWF           loop_counter
 Warning[207]: Found label after column 1. (Strip_loop)
-007E                  00197     Strip_loop  
-                      00198 
-007E   1985           00199                 BTFSC           PORTA,RA3   ;Check if RA3 is high, if low go to WORK_CY2_2 again, BTFSC-
+0081                  00205     Strip_loop  
+                      00206 
+0081   2???           00207                 CALL            DELAY_150MS
+0082   2???           00208                 CALL            DELAY_150MS
+0083   2???           00209                 CALL            DELAY_150MS
+0084   2???           00210                 CALL            DELAY_150MS
+0085   1985           00211                 BTFSC           PORTA,RA3   ;Check if RA3 is high, if low go to WORK_CY2_1 again, BTFSC-
                              Bit Test f, Skip if Clear or Low 
-007F   2???           00200                 GOTO            WORK_CY1
-0080   2???           00201                 CALL            DELAY_150MS
-0081   1985           00202                 BTFSC           PORTA,RA3   ;Check if RA3 is high, if low go to WORK_CY2_2 again, BTFSC-
-                             Bit Test f, Skip if Clear or Low 
-0082   2???           00203                 GOTO            WORK_CY1
-0083   2???           00204                 CALL            DELAY_150MS
-0084   1985           00205                 BTFSC           PORTA,RA3   ;Check if RA3 is high, if low go to WORK_CY2_2 again, BTFSC-
-                             Bit Test f, Skip if Clear or Low 
-0085   2???           00206                 GOTO            WORK_CY1
-0086   2???           00207                 CALL            DELAY_150MS
-0087   1985           00208                 BTFSC           PORTA,RA3   ;Check if RA3 is high, if low go to WORK_CY2_2 again, BTFSC-
-                             Bit Test f, Skip if Clear or Low 
-0088   2???           00209                 GOTO            WORK_CY1
-0089   2???           00210                 CALL            DELAY_150MS
-008A   1985           00211                 BTFSC           PORTA,RA3   ;Check if RA3 is high, if low go to WORK_CY2_2 again, BTFSC-
-                             Bit Test f, Skip if Clear or Low 
-008B   2???           00212                 GOTO            WORK_CY1
-008C   2???           00213                 CALL            DELAY_150MS
-008D   1985           00214                 BTFSC           PORTA,RA3   ;Check if RA3 is high, if low go to WORK_CY2_2 again, BTFSC-
-                             Bit Test f, Skip if Clear or Low 
-008E   2???           00215                 GOTO            WORK_CY1
-008F   2???           00216                 CALL            DELAY_150MS
-0090   1985           00217                 BTFSC           PORTA,RA3   ;Check if RA3 is high, if low go to WORK_CY2_2 again, BTFSC-
-                             Bit Test f, Skip if Clear or Low 
-0091   2???           00218                 GOTO            WORK_CY1
-0092   0BD0           00219                 DECFSZ          loop_counter, 1
-                      00220                 
-0093   2???           00221                 GOTO            Strip_loop
-                      00222                         
-0094                  00223 WORK_ERROR_CONDITION ; After waiting for Max time Start Normal
-0094   2???           00224                 GOTO            WORK_CY1                
-                      00225 
-                      00226                 
-0095                  00227 DELAY_40US                        ; Oscillator 1M, 10 instruction cycles
-0095   0064           00228           CLRWDT
-0096   0000           00229           NOP
-MPASM 5.77                          MAIN.ASM   7-22-2023  1:20:48         PAGE  6
+0086   2???           00212                 GOTO            WORK_CY2_1
+0087   0BD0           00213                 DECFSZ          loop_counter, 1
+0088   2???           00214                 GOTO            Strip_loop
+                      00215                         
+0089                  00216 WORK_ERROR_CONDITION ; After waiting for Max time Start Normal
+0089   2???           00217                 GOTO            WORK_CY1                
+                      00218 
+                      00219                 
+008A                  00220 DELAY_40US                        ; Oscillator 1M, 10 instruction cycles
+008A   0064           00221           CLRWDT
+008B   0000           00222           NOP
+008C   0000           00223           NOP
+008D   0000           00224           NOP
+008E   0000           00225           NOP
+008F   0000           00226           NOP
+0090   0000           00227           NOP
+0091   0008           00228           RETURN
+                      00229 
+0092                  00230 DELAY_150MS
+0092   304B           00231           MOVLW  0X4B   ; 75 times loop
+MPASM 5.77                          MAIN.ASM   7-26-2023  15:34:35         PAGE  6
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
   VALUE
 
-0097   0000           00230           NOP
-0098   0000           00231           NOP
-0099   0000           00232           NOP
-009A   0000           00233           NOP
-009B   0000           00234           NOP
-009C   0008           00235           RETURN
-                      00236 
-009D                  00237 DELAY_150MS
-009D   304B           00238           MOVLW  0X4B
-009E   00C4           00239           MOVWF  TEMP3
-009F   2???           00240           CALL   DELAY_2MS
+0093   00C4           00232           MOVWF  TEMP3
+0094   2???           00233           CALL   DELAY_2MS
 Message[305]: Using default destination of 1 (file).
-00A0   0BC4           00241           DECFSZ TEMP3
-00A1   2???           00242           GOTO   $-2
-00A2   0008           00243           RETURN
-                      00244 
-                      00245           
-00A3                  00246 DELAY_2MS
-00A3   300A           00247           MOVLW  0X0A
-00A4   00C3           00248           MOVWF  TEMP2
-00A5                  00249 DELAY_2MS_1
-00A5   2???           00250           CALL   DELAY_40US
-00A6   2???           00251           CALL   DELAY_40US
-00A7   2???           00252           CALL   DELAY_40US
-00A8   2???           00253           CALL   DELAY_40US
-00A9   2???           00254           CALL   DELAY_40US
+0095   0BC4           00234           DECFSZ TEMP3
+0096   2???           00235           GOTO   $-2
+0097   0008           00236           RETURN
+                      00237 
+                      00238           
+0098                  00239 DELAY_2MS
+0098   300A           00240           MOVLW  0X0A ; 10 times, i.e 2ms divide by 40us is 50 and 50 divide by 5(five time call to 40us
+                            ) is 10
+0099   00C3           00241           MOVWF  TEMP2
+009A                  00242 DELAY_2MS_1
+009A   2???           00243           CALL   DELAY_40US
+009B   2???           00244           CALL   DELAY_40US
+009C   2???           00245           CALL   DELAY_40US
+009D   2???           00246           CALL   DELAY_40US
+009E   2???           00247           CALL   DELAY_40US
 Message[305]: Using default destination of 1 (file).
-00AA   0BC3           00255           DECFSZ TEMP2
-00AB   2???           00256           GOTO   DELAY_2MS_1
-00AC   0008           00257           RETURN
-                      00258 ;/////////////////////////////////////////////////////////
-3C9C                  00259           END
-MPASM 5.77                          MAIN.ASM   7-22-2023  1:20:48         PAGE  7
+009F   0BC3           00248           DECFSZ TEMP2
+00A0   2???           00249           GOTO   DELAY_2MS_1
+00A1   0008           00250           RETURN
+                      00251 ;/////////////////////////////////////////////////////////
+3C9C                  00252           END
+MPASM 5.77                          MAIN.ASM   7-26-2023  15:34:35         PAGE  7
 
 
 SYMBOL TABLE
@@ -390,7 +382,7 @@ CWG1DBR3                          00000003
 CWG1DBR4                          00000004
 CWG1DBR5                          00000005
 D1N                               00000000
-MPASM 5.77                          MAIN.ASM   7-22-2023  1:20:48         PAGE  8
+MPASM 5.77                          MAIN.ASM   7-26-2023  15:34:35         PAGE  8
 
 
 SYMBOL TABLE
@@ -416,12 +408,12 @@ D4S1                              00000005
 D4S2                              00000006
 D4T                               00000007
 DC                                00000001
-DELAY_150MS                       0000009D
-DELAY_2MS                         000000A3
-DELAY_2MS_1                       000000A5
-DELAY_40US                        00000095
+DELAY_150MS                       00000092
+DELAY_2MS                         00000098
+DELAY_2MS_1                       0000009A
+DELAY_40US                        0000008A
 F                                 00000001
-FF1                               00000065
+FF1                               00000066
 FREE                              00000004
 FSR                               00000004
 FVRCON                            0000001D
@@ -449,7 +441,7 @@ G3POL                             00000002
 G4D1N                             00000000
 G4D1T                             00000001
 G4D2N                             00000002
-MPASM 5.77                          MAIN.ASM   7-22-2023  1:20:48         PAGE  9
+MPASM 5.77                          MAIN.ASM   7-26-2023  15:34:35         PAGE  9
 
 
 SYMBOL TABLE
@@ -508,7 +500,7 @@ LC1D3S0                           00000000
 LC1D3S1                           00000001
 LC1D3S2                           00000002
 LC1D4S0                           00000004
-MPASM 5.77                          MAIN.ASM   7-22-2023  1:20:48         PAGE 10
+MPASM 5.77                          MAIN.ASM   7-26-2023  15:34:35         PAGE 10
 
 
 SYMBOL TABLE
@@ -567,7 +559,7 @@ LCINTP                            00000004
 LCMODE0                           00000000
 LCMODE1                           00000001
 LCMODE2                           00000002
-MPASM 5.77                          MAIN.ASM   7-22-2023  1:20:48         PAGE 11
+MPASM 5.77                          MAIN.ASM   7-26-2023  15:34:35         PAGE 11
 
 
 SYMBOL TABLE
@@ -626,7 +618,7 @@ NCO1INC13                         00000005
 NCO1INC14                         00000006
 NCO1INC15                         00000007
 NCO1INC2                          00000002
-MPASM 5.77                          MAIN.ASM   7-22-2023  1:20:48         PAGE 12
+MPASM 5.77                          MAIN.ASM   7-26-2023  15:34:35         PAGE 12
 
 
 SYMBOL TABLE
@@ -685,7 +677,7 @@ PWM1DCH5                          00000005
 PWM1DCH6                          00000006
 PWM1DCH7                          00000007
 PWM1DCL                           00000014
-MPASM 5.77                          MAIN.ASM   7-22-2023  1:20:48         PAGE 13
+MPASM 5.77                          MAIN.ASM   7-26-2023  15:34:35         PAGE 13
 
 
 SYMBOL TABLE
@@ -729,7 +721,7 @@ SBOREN                            00000007
 START                             00000000
 STATUS                            00000003
 SWDTEN                            00000000
-Strip_loop                        0000007E
+Strip_loop                        00000081
 T0CS                              00000005
 T0SE                              00000004
 T2CKPS0                           00000000
@@ -744,7 +736,7 @@ TMR0IF                            00000002
 TMR0_ISR                          0000000E
 TMR0_ISR_RT                       00000020
 TMR2                              00000011
-MPASM 5.77                          MAIN.ASM   7-22-2023  1:20:48         PAGE 14
+MPASM 5.77                          MAIN.ASM   7-26-2023  15:34:35         PAGE 14
 
 
 SYMBOL TABLE
@@ -778,10 +770,11 @@ WDTPS3                            00000004
 WDTPS4                            00000005
 WORK_CY1                          0000004A
 WORK_CY2                          00000057
-WORK_CY2_1                        00000060
-WORK_CY2_2                        0000006B
-WORK_ERROR_CONDITION              00000094
-WORK_ERROR_CONDITION_LOOP         0000007C
+WORK_CY2_1                        0000005E
+WORK_CY2_1_1                      00000060
+WORK_CY2_2                        0000006C
+WORK_ERROR_CONDITION              00000089
+WORK_ERROR_CONDITION_LOOP         0000007D
 WPUA                              00000009
 WPUA0                             00000000
 WPUA1                             00000001
@@ -791,7 +784,7 @@ WR                                00000001
 WREN                              00000002
 WRERR                             00000003
 Z                                 00000002
-_.org_1_00A1                      000000A1
+_.org_1_0096                      00000096
 _BOREN_NSLEEP                     00003FFD
 _BOREN_OFF                        00003FF9
 _BOREN_ON                         00003FFF
@@ -802,13 +795,13 @@ _BORV_HI                          00003BFF
 _BORV_LO                          00003FFF
 _CONFIG                           00002007
 _CP_OFF                           00003FFF
-_CP_ON                            00003F7F
-MPASM 5.77                          MAIN.ASM   7-22-2023  1:20:48         PAGE 15
+MPASM 5.77                          MAIN.ASM   7-26-2023  15:34:35         PAGE 15
 
 
 SYMBOL TABLE
   LABEL                             VALUE 
 
+_CP_ON                            00003F7F
 _DEVID1                           00002006
 _FOSC_EC                          00003FFF
 _FOSC_INTOSC                      00003FFE
@@ -834,11 +827,12 @@ _WRT_HALF                         00002FFF
 _WRT_OFF                          00003FFF
 __10F322                          00000001
 loop_counter                      00000050
+loop_counter2                     00000051
 status_temp                       00000041
 w_temp                            00000040
 
 Errors   :     0
-Warnings :     2 reported,     0 suppressed
-Messages :     9 reported,     0 suppressed
+Warnings :     4 reported,     0 suppressed
+Messages :    10 reported,     0 suppressed
 
 
