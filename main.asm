@@ -132,8 +132,7 @@ RESTART
 		GOTO        WORK_CY2 ; If RA3 is 0 jump to WORK_CY2
 
 WORK_CY1
-		CALL		DELAY_150MS
-		CALL		DELAY_150MS
+
 		MOVLW		(1<<RA2)
 		MOVWF		 LATA
 		CALL		DELAY_150MS
@@ -144,11 +143,11 @@ WORK_CY1
 		CALL		DELAY_150MS
 		MOVLW		(1<<RA1)
 		MOVWF		LATA
+		CALL		DELAY_150MS
+		CALL		DELAY_150MS
 		GOTO		WORK_CY1
 
 WORK_CY2 
-		CALL		DELAY_150MS
-		CALL		DELAY_150MS ; RA2 Delay
 		CALL		DELAY_150MS
 		CALL		DELAY_150MS ; RA0 Delay
 		CALL		DELAY_150MS
@@ -160,13 +159,13 @@ WORK_CY2
 		;MOVWF		RE_NUM1
 		;MOVWF		RE_NUM2	
 WORK_CY2_1
-	          MOVLW  0X0A	; 75 times loop
+	          MOVLW  0X1D4C	; 7500 times loop, Reason is it has to  wait for 300ms in each loop 40uS is lost
 		  MOVWF  loop_counter2	
 	WORK_CY2_1_1	
 		INCFSZ		RE_NUM2	;RE_NUM2=0 skip next sentence
 		DECFSZ		loop_counter2
 		GOTO		FF1
-		GOTO		WORK_CY2
+		GOTO		WORK_CY1
 		INCFSZ		RE_NUM1	;RE_NUM1=0 skip next sentence
 		GOTO		FF1
 		
@@ -194,33 +193,22 @@ WORK_CY2_2
 		CALL		DELAY_150MS
 		MOVLW		(1<<RA1)
 		MOVWF		 LATA	
-		GOTO 		FF1
+		GOTO 		WORK_CY2_1
 ;/////////////////////////////////////////////////////////
 	
 WORK_ERROR_CONDITION_LOOP
+		CALL		DELAY_150MS
+		CALL		DELAY_150MS ; Previous Delay accounted
+		
 		MOVLW		.72	; Assuming 72 is max number of strip.
 		MOVWF		loop_counter
     Strip_loop	
 
-		BTFSC 		PORTA,RA3   ;Check if RA3 is high, if low go to WORK_CY2_2 again, BTFSC- Bit Test f, Skip if Clear or Low 
-		GOTO		WORK_CY2_1
 		CALL		DELAY_150MS
-		BTFSC 		PORTA,RA3   ;Check if RA3 is high, if low go to WORK_CY2_2 again, BTFSC- Bit Test f, Skip if Clear or Low 
-		GOTO		WORK_CY2_1
 		CALL		DELAY_150MS
-		BTFSC 		PORTA,RA3   ;Check if RA3 is high, if low go to WORK_CY2_2 again, BTFSC- Bit Test f, Skip if Clear or Low 
-		GOTO		WORK_CY2_1
 		CALL		DELAY_150MS
-		BTFSC 		PORTA,RA3   ;Check if RA3 is high, if low go to WORK_CY2_2 again, BTFSC- Bit Test f, Skip if Clear or Low 
-		GOTO		WORK_CY2_1
 		CALL		DELAY_150MS
-		BTFSC 		PORTA,RA3   ;Check if RA3 is high, if low go to WORK_CY2_2 again, BTFSC- Bit Test f, Skip if Clear or Low 
-		GOTO		WORK_CY2_1
-		CALL		DELAY_150MS
-		BTFSC 		PORTA,RA3   ;Check if RA3 is high, if low go to WORK_CY2_2 again, BTFSC- Bit Test f, Skip if Clear or Low 
-		GOTO		WORK_CY2_1
-		CALL		DELAY_150MS
-		BTFSC 		PORTA,RA3   ;Check if RA3 is high, if low go to WORK_CY2_2 again, BTFSC- Bit Test f, Skip if Clear or Low 
+		BTFSC 		PORTA,RA3   ;Check if RA3 is high, if low go to WORK_CY2_1 again, BTFSC- Bit Test f, Skip if Clear or Low 
 		GOTO		WORK_CY2_1
 		DECFSZ		loop_counter, 1
 		GOTO		Strip_loop
