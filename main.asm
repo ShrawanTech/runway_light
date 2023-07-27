@@ -149,13 +149,20 @@ WORK_CY1
 		CALL		DELAY_40US
 		CALL		DELAY_150MS
 		CALL		DELAY_150MS
+		NOP		; To sync 1 instruction cycle of WORK_ERROR_CONDITION_LOOP
 		GOTO		WORK_CY1
 
 WORK_CY2 
+		NOP
+		NOP
 		CALL		DELAY_150MS
 		CALL		DELAY_150MS ; RA2 Delay
+		NOP
+		NOP
 		CALL		DELAY_150MS
 		CALL		DELAY_150MS; RA0 Delay Delay Repeating s0 that RA3 get enough time to get HIGH from prvious MCU
+		
+		CALL		DELAY_40US; Now its time to get RA1 and RA3 high
 		CALL		DELAY_40US; Now its time to get RA1 and RA3 high
 		BTFSS		PORTA,RA3 ;Check if the KEY is pressed or RA3 is high, press to skip the next step, BTFSS-Bit Test f, Skip if Set/High
 		GOTO		WORK_ERROR_CONDITION_LOOP ; If RA3 is 0 jump to WORK_CY2
@@ -164,7 +171,7 @@ WORK_CY2
 		;MOVWF		RE_NUM1
 		;MOVWF		RE_NUM2	
 WORK_CY2_1
-	          MOVLW  0X7530	; 30,000 times loop, Reason is it has to  wait for 1200ms 2 cycle in each loop 40uS is lost
+	          MOVLW  0X1D4C	; 7500 times loop, Reason is it has to  wait for 300ms 2 cycle in each loop 40uS is lost
 		  MOVWF  loop_counter2	
 	WORK_CY2_1_1	
 		INCFSZ		RE_NUM2	;RE_NUM2=0 skip next sentence
@@ -203,6 +210,7 @@ WORK_CY2_2
 	
 WORK_ERROR_CONDITION_LOOP
 		CALL		DELAY_40US
+		CALL		DELAY_40US
 		BTFSC 		PORTA,RA3; Check again if RA3 is high BTFSC Skip next instruction if Low or clear
 		GOTO		WORK_CY2_1
 		CALL		DELAY_150MS
@@ -211,11 +219,16 @@ WORK_ERROR_CONDITION_LOOP
 		MOVLW		.100	; Assuming 72 is max number of strip.
 		MOVWF		loop_counter
     Strip_loop	
-
+					    ; 1 NOP added coz there is already 2 instruction added before this line
 		CALL		DELAY_150MS
 		CALL		DELAY_150MS
+		BTFSC 		PORTA,RA3; Check again if RA3 is high BTFSC Skip next instruction if Low or clear
+		GOTO		WORK_CY2_1
+		NOP
 		CALL		DELAY_150MS
 		CALL		DELAY_150MS
+		;NOP
+		;NOP
 		CALL		DELAY_40US
 		CALL		DELAY_40US
 		BTFSC 		PORTA,RA3; Check again if RA3 is high BTFSC Skip next instruction if Low or clear
@@ -226,15 +239,15 @@ WORK_ERROR_CONDITION_LOOP
 		GOTO		WORK_CY2_1
 		CALL		DELAY_150MS
 		CALL		DELAY_150MS
-		DECFSZ		loop_counter, 1
+		DECFSZ		loop_counter, 1 ; This insturction equivqlent timing is added to WORK_CY1
 		GOTO		Strip_loop
-			
+		  	
 WORK_ERROR_CONDITION ; After waiting for Max time Start Normal
 
 		GOTO		WORK_CY1		
 
 		
-DELAY_40US                        ; Oscillator 1M, 10 instruction cycles
+DELAY_40US                        ; Oscillator 1M, 10 instruction cycles Instruction Cycle Time (Tcy) = 4 / Fosc(FOSC is oscilator frequency
           CLRWDT		; 1 cycles
           NOP			; 1 cycles
           NOP			; 1 cycles
@@ -244,7 +257,7 @@ DELAY_40US                        ; Oscillator 1M, 10 instruction cycles
           NOP			; 1 cycles
           RETURN		; 2 cycle
 
-DELAY_150MS
+DELAY_150MS; this will be 165ms
           MOVLW  0X4B	; 75 times loop
           MOVWF  TEMP3
           CALL   DELAY_2MS
@@ -253,7 +266,7 @@ DELAY_150MS
           RETURN
 
 	  
-DELAY_2MS
+DELAY_2MS ; this will be 2.176ms considering insctruction ccyle except DELAY_40uS
           MOVLW  0X0A ; 10 times, i.e 2ms divide by 40us is 50 and 50 divide by 5(five time call to 40us) is 10
           MOVWF  TEMP2
 DELAY_2MS_1
