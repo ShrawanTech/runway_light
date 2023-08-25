@@ -132,8 +132,8 @@ RESTART
 		GOTO        WORK_CY2 ; If RA3 is 0 jump to WORK_CY2
 
 WORK_CY1
-
-		MOVLW		(1<<RA2)
+		NOP
+		MOVLW		(1<<RA2) 
 		MOVWF		 LATA
 		CALL		DELAY_150MS
 		CALL		DELAY_150MS
@@ -150,11 +150,17 @@ WORK_CY1
 		CALL		DELAY_150MS
 		CALL		DELAY_150MS
 		NOP		; To sync 1 instruction cycle of WORK_ERROR_CONDITION_LOOP
+		NOP            ;
+		NOP		; work CY2 GOTO		WORK_ERROR_CONDITION_LOOP
+		NOP
+		NOP
+		NOP
+		NOP
 		GOTO		WORK_CY1
 
 WORK_CY2 
-		NOP
-		NOP
+		;NOP
+		;NOP
 		CALL		DELAY_150MS
 		CALL		DELAY_150MS ; RA2 Delay
 		NOP
@@ -222,8 +228,7 @@ WORK_ERROR_CONDITION_LOOP
 					    ; 1 NOP added coz there is already 2 instruction added before this line
 		CALL		DELAY_150MS
 		CALL		DELAY_150MS
-		BTFSC 		PORTA,RA3; Check again if RA3 is high BTFSC Skip next instruction if Low or clear
-		GOTO		WORK_CY2_1
+		NOP
 		NOP
 		CALL		DELAY_150MS
 		CALL		DELAY_150MS
