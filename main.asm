@@ -26,24 +26,26 @@ START     ORG     0x000             ; processor reset vector
 ISR       ORG     0x004             ; interrupt vector location
      
 ;         Context saving for ISR
-          MOVWF   w_temp            ; save off current W register contents
-          MOVF    STATUS,w          ; move status register into W register
-          MOVWF   status_temp       ; save off contents of STATUS register
+          ;MOVWF   w_temp            ; save off current W register contents
+          ;MOVF    STATUS,w          ; move status register into W register
+          ;MOVWF   status_temp       ; save off contents of STATUS register
 	 ;INSERT INTERRUPT CODE HERE
-		BTFSC	INTCON,TMR0IF
-		GOTO	TMR0_ISR
-		;BTFSC	INTCON,IOCIF
-		;GOTO	IOC_ISR
+		;BTFSC	INTCON,TMR0IF
+		;GOTO	TMR0_ISR
+		CALL	    DELAY_40US
+		BTFSC	    PORTA,RA3 ; External interrupt if high Goto WORK_CY2_1
+		GOTO	    WORK_CY2_1
 ;;         -----SAMPLE CODE----- if the interrupt came from the timer, execute the
 ;;         TMR0 interrupt service routine. 
 ;          BTFSC   INTCON, T0IF ; Uncomment this line to test sample code 
 ;          CALL    TMR0_ISR     ; Uncomment this line to test sample code     
 
 ;         Restore context before returning from interrupt
-          MOVF    status_temp,w   ; retrieve copy of STATUS register
-          MOVWF   STATUS          ; restore pre-isr STATUS register contents
-          SWAPF   w_temp,f
-          SWAPF   w_temp,w        ; restore pre-isr W register contents
+		
+          ;MOVF    status_temp,w   ; retrieve copy of STATUS register
+          ;MOVWF   STATUS          ; restore pre-isr STATUS register contents
+          ;SWAPF   w_temp,f
+          ;SWAPF   w_temp,w        ; restore pre-isr W register contents
           RETFIE                  ; return from interrupt
 ;**************************************************************
 TMR0_ISR
@@ -109,6 +111,7 @@ NEXT
 		MOVF    	W,OPTION_REG
 		ANDLW   	0XDF
 		MOVWF   	OPTION_REG
+		bsf		OPTION_REG, INTEDG
 		CLRW  		
 		MOVWF   	WPUA	; close pull up								
 		BANKSEL 	TRISA	;IO port set output mode
@@ -117,10 +120,11 @@ NEXT
 		MOVLW   	(1<<WDTPS2)|(1<<WDTPS1)|(1<<WDTPS0)|(1<<SWDTEN)
 		MOVWF		WDTCON 		;Set watchdog frequency division, open watchdog						
 		BANKSEL		PORTA
-		;MOVLW		(1<<GIE)|(1<<PEIE)|(1<<TMR0IE)
-		;MOVWF		INTCON
-		;MOVLW		0XFF
-		;MOVWF		CNT_NUM
+		;Interrupt Enable
+		MOVLW		(1<<GIE)|(1<<PEIE)|(1<<INTE);|(1<<TMR0IE)
+		MOVWF		INTCON
+		MOVLW		0XFF
+		MOVWF		CNT_NUM
 RESTART
 		CLRW
 		MOVWF       LATA
@@ -129,10 +133,10 @@ RESTART
 		CALL        DELAY_150MS
 		CALL        DELAY_150MS
 		BTFSS	    PORTA,RA3	;Check if the KEY is pressed or RA3 is high, press to skip the next step, BTFSS-Bit Test f, Skip if Set/High
-		GOTO        WORK_CY2 ; If RA3 is 0 jump to WORK_CY2
+		GOTO        WORK_ERROR_CONDITION_LOOP ; If RA3 is 0 jump to WORK_CY2
 
 WORK_CY1
-		NOP
+		
 		MOVLW		(1<<RA2) 
 		MOVWF		 LATA
 		CALL		DELAY_150MS
@@ -143,39 +147,10 @@ WORK_CY1
 		CALL		DELAY_150MS
 		MOVLW		(1<<RA1)
 		MOVWF		LATA
-		CALL		DELAY_40US
-		CALL		DELAY_40US
-		CALL		DELAY_40US
-		CALL		DELAY_40US
 		CALL		DELAY_150MS
 		CALL		DELAY_150MS
-		NOP		; To sync 1 instruction cycle of WORK_ERROR_CONDITION_LOOP
-		NOP            ;
-		NOP		; work CY2 GOTO		WORK_ERROR_CONDITION_LOOP
-		NOP
-		NOP
-		NOP
-		NOP
 		GOTO		WORK_CY1
 
-WORK_CY2 
-		;NOP
-		;NOP
-		CALL		DELAY_150MS
-		CALL		DELAY_150MS ; RA2 Delay
-		NOP
-		NOP
-		CALL		DELAY_150MS
-		CALL		DELAY_150MS; RA0 Delay Delay Repeating s0 that RA3 get enough time to get HIGH from prvious MCU
-		
-		CALL		DELAY_40US; Now its time to get RA1 and RA3 high
-		CALL		DELAY_40US; Now its time to get RA1 and RA3 high
-		BTFSS		PORTA,RA3 ;Check if the KEY is pressed or RA3 is high, press to skip the next step, BTFSS-Bit Test f, Skip if Set/High
-		GOTO		WORK_ERROR_CONDITION_LOOP ; If RA3 is 0 jump to WORK_CY2
-		GOTO		WORK_CY2_1
-		;CLRW		
-		;MOVWF		RE_NUM1
-		;MOVWF		RE_NUM2	
 WORK_CY2_1
 	          MOVLW  0X1D4C	; 7500 times loop, Reason is it has to  wait for 300ms 2 cycle in each loop 40uS is lost
 		  MOVWF  loop_counter2	
@@ -200,7 +175,7 @@ WORK_CY2_2
 		GOTO		WORK_CY2_2 
 		CALL		DELAY_40US
 		BTFSC		PORTA,RA3   ;Check if the KEY is pressed or RA3 is high, press to skip the next step BTFSC- Bit Test f, Skip if Clear or Low 
-		GOTO		WORK_CY2_2  ;??
+		GOTO		WORK_CY2_2  ;
 		MOVLW		(1<<RA2)
 		MOVWF		 LATA
 		CALL		DELAY_150MS
@@ -212,44 +187,48 @@ WORK_CY2_2
 		MOVLW		(1<<RA1)
 		MOVWF		 LATA	
 		GOTO 		WORK_CY2_1
-;/////////////////////////////////////////////////////////
+
 	
 WORK_ERROR_CONDITION_LOOP
-		CALL		DELAY_40US
-		CALL		DELAY_40US
-		BTFSC 		PORTA,RA3; Check again if RA3 is high BTFSC Skip next instruction if Low or clear
-		GOTO		WORK_CY2_1
-		CALL		DELAY_150MS
-		CALL		DELAY_150MS ; Previous Delay accounted, TO SYNC with previous main Strip
 		
-		MOVLW		.100	; Assuming 72 is max number of strip.
+		MOVLW		.80	; Assuming 72 is max number of strip.
 		MOVWF		loop_counter
     Strip_loop	
 					    ; 1 NOP added coz there is already 2 instruction added before this line
+		;NOP
+		MOVLW		(1<<RA2) 
+		MOVWF		 LATA
+		CALL		DELAY_150MS
+		CALL		DELAY_150MS
+		MOVLW		(1<<RA0) 
+		MOVWF		 LATA
 		CALL		DELAY_150MS
 		CALL		DELAY_150MS
 		NOP
-		NOP
 		CALL		DELAY_150MS
-		CALL		DELAY_150MS
-		;NOP
-		;NOP
-		CALL		DELAY_40US
-		CALL		DELAY_40US
 		BTFSC 		PORTA,RA3; Check again if RA3 is high BTFSC Skip next instruction if Low or clear
 		GOTO		WORK_CY2_1
-		CALL		DELAY_40US
-		CALL		DELAY_40US
-		BTFSC 		PORTA,RA3; Check again if RA3 is high BTFSC Skip next instruction if Low or clear
-		GOTO		WORK_CY2_1
-		CALL		DELAY_150MS
 		CALL		DELAY_150MS
 		DECFSZ		loop_counter, 1 ; This insturction equivqlent timing is added to WORK_CY1
 		GOTO		Strip_loop
 		  	
 WORK_ERROR_CONDITION ; After waiting for Max time Start Normal
-
-		GOTO		WORK_CY1		
+		
+		MOVLW		(1<<RA2) 
+		MOVWF		 LATA
+		CALL		DELAY_150MS
+		CALL		DELAY_150MS
+		MOVLW		(1<<RA0)
+		MOVWF		LATA
+		CALL		DELAY_150MS
+		CALL		DELAY_150MS
+		MOVLW		(1<<RA1)
+		MOVWF		LATA
+		CALL		DELAY_150MS
+		BTFSC 		PORTA,RA3; Check again if RA3 is high BTFSC Skip next instruction if Low or clear
+		GOTO		WORK_CY2_1
+		CALL		DELAY_150MS
+		GOTO		WORK_ERROR_CONDITION		
 
 		
 DELAY_40US                        ; Oscillator 1M, 10 instruction cycles Instruction Cycle Time (Tcy) = 4 / Fosc(FOSC is oscilator frequency
