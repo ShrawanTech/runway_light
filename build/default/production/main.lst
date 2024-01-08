@@ -1,4 +1,4 @@
-MPASM 5.77                          MAIN.ASM   8-30-2023  12:38:55         PAGE  1
+MPASM 5.77                          MAIN.ASM   1-8-2024  10:55:12         PAGE  1
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -57,7 +57,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00040 ;          BTFSC   INTCON, T0IF ; Uncomment this line to test sample code 
                       00041 ;          CALL    TMR0_ISR     ; Uncomment this line to test sample code     
                       00042 
-MPASM 5.77                          MAIN.ASM   8-30-2023  12:38:55         PAGE  2
+MPASM 5.77                          MAIN.ASM   1-8-2024  10:55:12         PAGE  2
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -116,7 +116,7 @@ Message[305]: Using default destination of 1 (file).
 0027   0087           00091                   MOVWF LATA
 0028   2???           00092                   GOTO TMR0_ISR_RT              
                       00093 ;**********************************************************************
-MPASM 5.77                          MAIN.ASM   8-30-2023  12:38:55         PAGE  3
+MPASM 5.77                          MAIN.ASM   1-8-2024  10:55:12         PAGE  3
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -175,7 +175,7 @@ Message[312]: Page or Bank selection not needed for this device.  No code genera
 0048   2???           00136                 GOTO        WORK_ERROR_CONDITION_LOOP ; If RA3 is 0 jump to WORK_CY2
                       00137 
 0049                  00138 WORK_CY1
-MPASM 5.77                          MAIN.ASM   8-30-2023  12:38:55         PAGE  4
+MPASM 5.77                          MAIN.ASM   1-8-2024  10:55:12         PAGE  4
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -208,7 +208,8 @@ Message[305]: Using default destination of 1 (file).
 Message[305]: Using default destination of 1 (file).
 0059   0BD1           00159                 DECFSZ          loop_counter2
 005A   2???           00160                 GOTO            FF1
-005B   2???           00161                 GOTO            WORK_CY1
+005B   2???           00161                 GOTO            WORK_ERROR_CONDITION  ; This has been changed from WORK_CY1 to WORK_ERRO
+                            R_CONDITION 
 Message[305]: Using default destination of 1 (file).
 005C   0FC8           00162                 INCFSZ          RE_NUM1 ;RE_NUM1=0 skip next sentence
 005D   2???           00163                 GOTO            FF1
@@ -233,13 +234,13 @@ Message[305]: Using default destination of 1 (file).
 006A   3004           00179                 MOVLW           (1<<RA2)
 006B   0087           00180                 MOVWF            LATA
 006C   2???           00181                 CALL            DELAY_150MS
-006D   2???           00182                 CALL            DELAY_150MS
-MPASM 5.77                          MAIN.ASM   8-30-2023  12:38:55         PAGE  5
+MPASM 5.77                          MAIN.ASM   1-8-2024  10:55:12         PAGE  5
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
   VALUE
 
+006D   2???           00182                 CALL            DELAY_150MS
 006E   3001           00183                 MOVLW           (1<<RA0)
 006F   0087           00184                 MOVWF           LATA
 0070   2???           00185                 CALL            DELAY_150MS
@@ -292,13 +293,13 @@ Warning[207]: Found label after column 1. (Strip_loop)
 0091   1985           00228                 BTFSC           PORTA,RA3; Check again if RA3 is high BTFSC Skip next instruction if Low
                              or clear
 0092   2???           00229                 GOTO            WORK_CY2_1
-0093   2???           00230                 CALL            DELAY_150MS
-MPASM 5.77                          MAIN.ASM   8-30-2023  12:38:55         PAGE  6
+MPASM 5.77                          MAIN.ASM   1-8-2024  10:55:12         PAGE  6
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
   VALUE
 
+0093   2???           00230                 CALL            DELAY_150MS
 0094   2???           00231                 GOTO            WORK_ERROR_CONDITION            
                       00232 
                       00233                 
@@ -339,7 +340,7 @@ Message[305]: Using default destination of 1 (file).
 00AC   0008           00264           RETURN
                       00265 ;/////////////////////////////////////////////////////////
 3C9C                  00266           END
-MPASM 5.77                          MAIN.ASM   8-30-2023  12:38:55         PAGE  7
+MPASM 5.77                          MAIN.ASM   1-8-2024  10:55:12         PAGE  7
 
 
 SYMBOL TABLE
@@ -398,7 +399,7 @@ CWG1DBR3                          00000003
 CWG1DBR4                          00000004
 CWG1DBR5                          00000005
 D1N                               00000000
-MPASM 5.77                          MAIN.ASM   8-30-2023  12:38:55         PAGE  8
+MPASM 5.77                          MAIN.ASM   1-8-2024  10:55:12         PAGE  8
 
 
 SYMBOL TABLE
@@ -457,7 +458,7 @@ G3POL                             00000002
 G4D1N                             00000000
 G4D1T                             00000001
 G4D2N                             00000002
-MPASM 5.77                          MAIN.ASM   8-30-2023  12:38:55         PAGE  9
+MPASM 5.77                          MAIN.ASM   1-8-2024  10:55:12         PAGE  9
 
 
 SYMBOL TABLE
@@ -516,7 +517,7 @@ LC1D3S0                           00000000
 LC1D3S1                           00000001
 LC1D3S2                           00000002
 LC1D4S0                           00000004
-MPASM 5.77                          MAIN.ASM   8-30-2023  12:38:55         PAGE 10
+MPASM 5.77                          MAIN.ASM   1-8-2024  10:55:12         PAGE 10
 
 
 SYMBOL TABLE
@@ -575,7 +576,7 @@ LCINTP                            00000004
 LCMODE0                           00000000
 LCMODE1                           00000001
 LCMODE2                           00000002
-MPASM 5.77                          MAIN.ASM   8-30-2023  12:38:55         PAGE 11
+MPASM 5.77                          MAIN.ASM   1-8-2024  10:55:12         PAGE 11
 
 
 SYMBOL TABLE
@@ -634,7 +635,7 @@ NCO1INC13                         00000005
 NCO1INC14                         00000006
 NCO1INC15                         00000007
 NCO1INC2                          00000002
-MPASM 5.77                          MAIN.ASM   8-30-2023  12:38:55         PAGE 12
+MPASM 5.77                          MAIN.ASM   1-8-2024  10:55:12         PAGE 12
 
 
 SYMBOL TABLE
@@ -693,7 +694,7 @@ PWM1DCH5                          00000005
 PWM1DCH6                          00000006
 PWM1DCH7                          00000007
 PWM1DCL                           00000014
-MPASM 5.77                          MAIN.ASM   8-30-2023  12:38:55         PAGE 13
+MPASM 5.77                          MAIN.ASM   1-8-2024  10:55:12         PAGE 13
 
 
 SYMBOL TABLE
@@ -752,7 +753,7 @@ TMR0IF                            00000002
 TMR0_ISR                          00000008
 TMR0_ISR_RT                       0000001A
 TMR2                              00000011
-MPASM 5.77                          MAIN.ASM   8-30-2023  12:38:55         PAGE 14
+MPASM 5.77                          MAIN.ASM   1-8-2024  10:55:12         PAGE 14
 
 
 SYMBOL TABLE
@@ -811,7 +812,7 @@ _BORV_LO                          00003FFF
 _CONFIG                           00002007
 _CP_OFF                           00003FFF
 _CP_ON                            00003F7F
-MPASM 5.77                          MAIN.ASM   8-30-2023  12:38:55         PAGE 15
+MPASM 5.77                          MAIN.ASM   1-8-2024  10:55:12         PAGE 15
 
 
 SYMBOL TABLE

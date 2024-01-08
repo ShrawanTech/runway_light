@@ -158,7 +158,7 @@ WORK_CY2_1
 		INCFSZ		RE_NUM2	;RE_NUM2=0 skip next sentence
 		DECFSZ		loop_counter2
 		GOTO		FF1
-		GOTO		WORK_CY1
+		GOTO		WORK_ERROR_CONDITION  ; This has been changed from WORK_CY1 to WORK_ERROR_CONDITION 
 		INCFSZ		RE_NUM1	;RE_NUM1=0 skip next sentence
 		GOTO		FF1
 		
